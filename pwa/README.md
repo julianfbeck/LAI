@@ -1,6 +1,7 @@
-# lai
+# LAI web app
 
 ## Project setup
+Make sure to install yarn
 ```
 yarn install
 ```
@@ -8,6 +9,17 @@ yarn install
 ### Compiles and hot-reloads for development
 ```
 yarn serve
+```
+
+### Generate Desktop App out of Website
+* Install nativefier
+```
+npm install nativefier -g
+```
+
+* Run nativefier
+```
+nativefier "http://localhost:8081/"
 ```
 
 ### Compiles and minifies for production
