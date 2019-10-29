@@ -1,0 +1,9 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - docker.io
+runcmd:
+  - logger "runcmd started"
+  - docker run -d -p 80:80 nginx
+  - logger "runcmd finished"
