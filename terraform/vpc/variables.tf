@@ -1,0 +1,4 @@
+variable petname {
+  type = "string"
+}
+

@@ -19,3 +19,10 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+
+# Terraform bins
+.terraform
+
+# Terraform secrets
+*.tfvars
