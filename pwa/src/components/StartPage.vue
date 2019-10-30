@@ -4,17 +4,29 @@
       <v-flex mb-4>
         <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
         <p class="subheading font-weight-regular">Upload your exportet .xls file to get started</p>
-        <v-file-input type="file" id="file" ref="file" label="Select .xls" v-on:change="handleFileUpload()"></v-file-input>
+        <v-file-input
+          v-model="file"
+          label="Select xls File..."
+          accept=".xls"
+          @change="onFileChange"
+        ></v-file-input>
+        <v-card class="mx-auto">
+          <v-list-item v-for="item in json" v-bind:key="item">
+            <v-list-item-content>
+              <v-list-item-title>{{item.sheetName}}</v-list-item-title>
+              <v-list-item-subtitle>{{item.data}}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-card>
       </v-flex>
     </v-layout>
     <bar-diagram></bar-diagram>
-    <v-file-input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
   </v-container>
 </template>
 
 <script>
 import BarDiagram from "./BarDiagram";
-import XLSX from "xlsx"
+import XLSX from "xlsx";
 export default {
   name: "HelloWorld",
   components: {
@@ -22,22 +34,28 @@ export default {
   },
   data() {
     return {
-      file: ""
+      file: null,
+      json: []
     };
   },
   methods: {
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-      console.log(this.file);
-      const reader = new FileReader();
-      reader.onload = this.handleFileLoad;
-    },
-    handleFileLoad(event) {
-      var data = event.target.result;
-      var workbook = XLSX.read(data, {
-        type: "binary"
-      });
-      console.log(workbook.SheetNames)
+    onFileChange() {
+      let reader = new FileReader();
+      reader.onload = () => {
+        let data = reader.result;
+        let workbook = XLSX.read(data, {
+          type: "binary"
+        });
+        console.log(workbook);
+        workbook.SheetNames.forEach(sheetName => {
+          let XL_row_object = XLSX.utils.sheet_to_row_object_array(
+            workbook.Sheets[sheetName]
+          );
+
+          this.json.push({ sheetName: sheetName, data: XL_row_object });
+        });
+      };
+      reader.readAsBinaryString(this.file);
     }
   }
 };
