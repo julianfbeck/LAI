@@ -28,7 +28,7 @@
 import BarDiagram from "./BarDiagram";
 import XLSX from "xlsx";
 export default {
-  name: "HelloWorld",
+  name: "StartPage",
   components: {
     BarDiagram
   },
