@@ -29,7 +29,8 @@ stages:
 validate:
   stage: validate
   only:
-    - tags
+    refs:
+      - master
   tags:
     - shared
   script:
@@ -38,8 +39,6 @@ validate:
 
 plan:
   stage: prepare
-  only:
-    - tags
   tags:
     - shared
   script:
@@ -51,8 +50,9 @@ plan:
 
 apply:
   stage: deploy
-  only:
-    - tags
+  # only:
+  #   refs:
+  #     - master
   tags:
     - shared
   script:
@@ -63,8 +63,9 @@ apply:
 
 destroy:
   stage: clean
-  only:
-    - tags
+  # only:
+  #   refs:
+  #     - master
   tags:
     - shared
   script:
@@ -75,8 +76,9 @@ destroy:
 
 destroy-instance:
   stage: clean
-  only:
-    - tags
+  # only:
+  #   refs:
+  #     - master
   tags:
     - shared
   script:
