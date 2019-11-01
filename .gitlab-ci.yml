@@ -14,8 +14,9 @@ cache:
 before_script:
   - export
   - cat /etc/*-release
-  - echo "${BACKEND_VARS:?}" > backend.tfvars
-  - echo "${TF_VARS:?}" > terraform.tfvars
+  - cd ./terraform
+  - echo "${BACKEND_VARS}" > backend.tfvars
+  - echo "${TF_VARS}" > terraform.tfvars
   - terraform init --backend-config backend.tfvars
   - terraform --version
   - pwd
