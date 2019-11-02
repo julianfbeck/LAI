@@ -5,7 +5,7 @@ image:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 variables:
-  PLAN: terraform/plan.tfplan
+  PLAN: plan.tfplan
 
 cache:
   paths:
@@ -47,7 +47,7 @@ plan:
   artifacts:
     name: plan
     paths:
-      - ${PLAN}
+      - terraform/${PLAN}
 
 apply:
   stage: deploy
