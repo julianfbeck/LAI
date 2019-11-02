@@ -29,9 +29,6 @@ stages:
 
 validate:
   stage: validate
-  only:
-    refs:
-      - master
   tags:
     - shared
   script:
