@@ -32,7 +32,7 @@ validate:
   tags:
     - shared
   script:
-    - terraform validate --check-variables=false
+    - terraform validate
     - terraform fmt -diff=true -write=false
 
 plan:
