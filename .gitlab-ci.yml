@@ -1,0 +1,89 @@
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+variables:
+  PLAN: plan.tfplan
+
+cache:
+  paths:
+    - terraform/.terraform
+
+before_script:
+  - export
+  - cat /etc/*-release
+  - cd ./terraform
+  - echo "${BACKEND_VARS}" > backend.tfvars
+  - echo "${TF_VARS}" > terraform.tfvars
+  - terraform init --backend-config backend.tfvars
+  - terraform --version
+  - pwd
+
+stages:
+  - validate
+  - prepare
+  - deploy
+  - clean
+
+validate:
+  stage: validate
+  tags:
+    - shared
+  script:
+    - terraform validate
+    - terraform fmt -diff=true -write=false
+
+plan:
+  stage: prepare
+  tags:
+    - shared
+  script:
+    - terraform plan -out=${PLAN} -var-file="terraform.tfvars"
+  artifacts:
+    name: plan
+    paths:
+      - terraform/${PLAN}
+
+auto-apply:
+  stage: deploy
+  only:
+    refs:
+      - master
+  tags:
+    - shared
+  script:
+    - terraform apply -input=false ${PLAN}
+  dependencies:
+    - plan
+
+manual-apply:
+  stage: deploy
+  tags:
+    - shared
+  script:
+    - terraform apply -input=false ${PLAN}
+  dependencies:
+    - plan
+  when: manual
+
+destroy:
+  stage: clean
+  tags:
+    - shared
+  script:
+    - terraform destroy -auto-approve
+  dependencies:
+    - manual-apply
+  when: manual
+
+destroy-instance:
+  stage: clean
+  tags:
+    - shared
+  script:
+    - terraform destroy -target module.instance.openstack_compute_instance_v2.my-instance -auto-approve
+  dependencies:
+    - manual-apply
+  when: manual
