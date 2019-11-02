@@ -49,11 +49,20 @@ plan:
     paths:
       - terraform/${PLAN}
 
-apply:
+auto-apply:
   stage: deploy
-  # only:
-  #   refs:
-  #     - master
+  only:
+    refs:
+      - master
+  tags:
+    - shared
+  script:
+    - terraform apply -input=false ${PLAN}
+  dependencies:
+    - plan
+
+manual-apply:
+  stage: deploy
   tags:
     - shared
   script:
@@ -64,9 +73,6 @@ apply:
 
 destroy:
   stage: clean
-  # only:
-  #   refs:
-  #     - master
   tags:
     - shared
   script:
@@ -77,9 +83,6 @@ destroy:
 
 destroy-instance:
   stage: clean
-  # only:
-  #   refs:
-  #     - master
   tags:
     - shared
   script:
