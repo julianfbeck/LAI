@@ -78,7 +78,7 @@ destroy:
   script:
     - terraform destroy -auto-approve
   dependencies:
-    - apply
+    - deploy
   when: manual
 
 destroy-instance:
@@ -88,5 +88,5 @@ destroy-instance:
   script:
     - terraform destroy -target module.instance.openstack_compute_instance_v2.my-instance -auto-approve
   dependencies:
-    - apply
+    - deploy
   when: manual
