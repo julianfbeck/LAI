@@ -5,11 +5,11 @@ image:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 variables:
-  PLAN: plan.tfplan
+  PLAN: terraform/plan.tfplan
 
 cache:
   paths:
-    - .terraform
+    - terraform/.terraform
 
 before_script:
   - export
