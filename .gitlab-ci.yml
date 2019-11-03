@@ -46,17 +46,17 @@ plan:
     paths:
       - terraform/${PLAN}
 
-auto-apply:
-  stage: deploy
-  only:
-    refs:
-      - master
-  tags:
-    - shared
-  script:
-    - terraform apply -input=false ${PLAN}
-  dependencies:
-    - plan
+# auto-apply:
+#   stage: deploy
+#   only:
+#     refs:
+#       - master
+#   tags:
+#     - shared
+#   script:
+#     - terraform apply -input=false ${PLAN}
+#   dependencies:
+#     - plan
 
 manual-apply:
   stage: deploy

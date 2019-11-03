@@ -9,6 +9,6 @@ data "template_file" "userdata" {
   template = "${file("${path.module}/templates/userdata.yml")}"
 
   vars = {
-    #TODO add vars here
+    DOCKER_COMPOSE_YML = "${base64encode(file("${path.module}/templates/docker-compose.yml"))}"
   }
 }
