@@ -6,5 +6,11 @@ packages:
 runcmd:
   - logger "runcmd started"
   - curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
-  #TODO add compose file (stack.yml): https://hub.docker.com/r/sturai/ilias/
+  - docker-compose -f /home/ubuntu/docker-compose.yml up -d
   - logger "runcmd finished"
+
+  - encoding: b64
+    content: "${DOCKER_COMPOSE_YML}"
+    owner: root:root
+    path: /home/ubuntu/docker-compose.yml
+    permissions: '0644'
