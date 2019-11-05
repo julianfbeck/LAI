@@ -2,16 +2,18 @@
   <v-container>
     <v-layout text-center wrap>
       <v-flex mb-4>
-        <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
-        <p class="subheading font-weight-regular">Upload your exportet .xls file to get started</p>
-        <v-file-input
-          v-model="file"
-          label="Select xls File..."
-          accept=".xlsx"
-          @change="onFileChange"
-        ></v-file-input>
+        <div v-if="json.length == 0">
+          <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
+          <p class="subheading font-weight-regular">Upload your exportet .xls file to get started</p>
+          <v-file-input
+            v-model="file"
+            label="Select xls File..."
+            accept=".xlsx"
+            @change="onFileChange"
+          ></v-file-input>
+        </div>
         <v-card class="mx-auto">
-          <v-list-item v-for="item in json" v-bind:key="item">
+          <v-list-item v-for="item in json" v-bind:key="item.sheetName">
             <v-list-item-content>
               <v-list-item-title>{{item.sheetName}}</v-list-item-title>
               <v-list-item-subtitle>{{item.data}}</v-list-item-subtitle>
@@ -27,6 +29,7 @@
 <script>
 import BarDiagram from "./BarDiagram";
 import XLSX from "xlsx";
+import parse from "./parseJson";
 export default {
   name: "StartPage",
   components: {
@@ -53,7 +56,7 @@ export default {
           );
 
           this.json.push({ sheetName: sheetName, data: XL_row_object });
-          console.log(this.json)
+          console.log(parse.getUsers(this.json));
         });
       };
       reader.readAsBinaryString(this.file);
