@@ -1,5 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-container>
+    <h1>"Beju ist besser als Sito im kickern" </h1>
+    <h4>Tobias Sigmann, 11.01.2019 </h4>
+  </v-container>
 </template>
