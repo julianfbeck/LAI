@@ -7,7 +7,7 @@
         <v-file-input
           v-model="file"
           label="Select xls File..."
-          accept=".xls"
+          accept=".xlsx"
           @change="onFileChange"
         ></v-file-input>
         <v-card class="mx-auto">
@@ -53,6 +53,7 @@ export default {
           );
 
           this.json.push({ sheetName: sheetName, data: XL_row_object });
+          console.log(this.json)
         });
       };
       reader.readAsBinaryString(this.file);
