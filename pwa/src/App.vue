@@ -47,8 +47,11 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar app clipped-left>
-      <v-toolbar-title link router to="about">LAI i i i</v-toolbar-title>
+    <v-app-bar dark app clipped-left color="red darken-3">
+      <v-toolbar-title link router to="about">LAI</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-toolbar-title link router to="about">Let's Analyze ILIAS!</v-toolbar-title>
     </v-app-bar>
     <v-content>
       <router-view />
