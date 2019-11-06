@@ -6,7 +6,7 @@
             <v-list-item-group>
                 <v-list-item>
                     <v-list-item-avatar color="white">
-                        <v-img contain src="@/assets/logo.png" alt="Logo" height="26"></v-img>
+                        <v-img contain src="@/assets/hska_logo.png" alt="Logo" height="26"></v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>Let's Analyze ILIAS</v-list-item-title>
