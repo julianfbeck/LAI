@@ -6,7 +6,7 @@
 
 <script>
 // @ is an alias to /src
-import BarDiagram from "@/components/BarDiagram";
+import BarDiagram from "@/components/features/BarDiagram";
 
 export default {
   name: "charts",

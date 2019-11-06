@@ -1,5 +1,5 @@
 <template>
-    <v-footer padless class="font-weight-medium" style="background: #eee">
+    <v-footer padless app dark class="font-weight-medium" >
         <v-col class="text-center" cols="12">
             <v-divider class="mb-2"/>
             &copy; {{ new Date().getFullYear() }} — <strong>LAI - Let's Analyze ILIAS</strong>

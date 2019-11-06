@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar fixed style="background: #eee" elevation="0" v-bind:class="{ 'pad-left-navigation': !responsive }">
+    <v-toolbar dark app clipped-left color="red lighten-2 accent-4" elevation="0" v-bind:class="{ 'pad-left-navigation': !responsive }">
 
         <v-app-bar-nav-icon v-if="responsive" @click.stop="onClickToggleNavigation" />
         <v-toolbar-title>Welcome to LAI - Let's Analyze ILIAS!</v-toolbar-title>
@@ -18,8 +18,8 @@
                 </v-list-item>
 
                 <v-list-item link>
-                    <v-list-item-icon red>
-                        <v-icon color="red">delete</v-icon>
+                    <v-list-item-icon >
+                        <v-icon >delete</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>Delete</v-list-item-title>
                 </v-list-item>
