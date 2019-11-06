@@ -46,9 +46,9 @@
 </template>
 
 <script>
-import BarDiagram from "./BarDiagram";
+import BarDiagram from "../components/features/BarDiagram";
 import XLSX from "xlsx";
-import parse from "./parseJson";
+import parse from "../components/features/parseJson";
 export default {
   name: "StartPage",
   components: {

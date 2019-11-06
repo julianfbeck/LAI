@@ -1,17 +1,8 @@
 <template>
-  <div class="home">
-    <StartPage />
-  </div>
+  <v-container>
+    <v-col cols="12">
+      <h1>Willkommen</h1>
+      <h2>Was möchten Sie machen?</h2>
+    </v-col>
+  </v-container>
 </template>
-
-<script>
-// @ is an alias to /src
-import StartPage from '@/components/StartPage.vue'
-
-export default {
-  name: 'home',
-  components: {
-    StartPage
-  }
-}
-</script>
