@@ -2,16 +2,6 @@
   <v-container>
     <v-layout text-center wrap>
       <v-flex mb-4>
-        <div v-if="json.length == 0">
-          <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
-          <p class="subheading font-weight-regular">Upload your exportet .xls file to get started</p>
-          <v-file-input
-            v-model="file"
-            label="Select xls File..."
-            accept=".xlsx"
-            @change="onFileChange"
-          ></v-file-input>
-        </div>
         <div v-if="overview != null">
           <p class="display-3">Overview</p>
           <v-card class="mb-1 mx-auto">
@@ -41,51 +31,22 @@
         </div>
       </v-flex>
     </v-layout>
-    <bar-diagram></bar-diagram>
   </v-container>
 </template>
 
 <script>
-import BarDiagram from "./BarDiagram";
-import XLSX from "xlsx";
-import parse from "./parseJson";
 export default {
-  name: "StartPage",
-  components: {
-    BarDiagram
+  name: "Overview",
+  components: {},
+  props: ["overview"],
+  mounted(){
   },
   data() {
-    return {
-      file: null,
-      json: [],
-      overview: null
-    };
-  },
-  methods: {
-    onFileChange() {
-      let reader = new FileReader();
-      reader.onload = () => {
-        let data = reader.result;
-        let workbook = XLSX.read(data, {
-          type: "binary"
-        });
-        console.log(workbook);
-        workbook.SheetNames.forEach(sheetName => {
-          let XL_row_object = XLSX.utils.sheet_to_row_object_array(
-            workbook.Sheets[sheetName]
-          );
-
-          this.json.push({ sheetName: sheetName, data: XL_row_object });
-        });
-        this.overview = parse.getOverview(this.json);
-      };
-      reader.readAsBinaryString(this.file);
-    }
+    return {};
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
