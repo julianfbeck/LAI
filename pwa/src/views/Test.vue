@@ -1,58 +1,54 @@
 <template>
-  <v-container>
+  <div>
     <v-layout text-center wrap>
-      <v-flex mb-4>
-        <div v-if="json.length == 0">
-          <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
-          <p class="subheading font-weight-regular">Upload your exportet .xls file to get started</p>
-          <v-file-input
-            v-model="file"
-            label="Select xls File..."
-            accept=".xlsx"
-            @change="onFileChange"
-          ></v-file-input>
-        </div>
-        <div v-if="overview != null">
-          <p class="display-3">Overview</p>
-          <v-card class="mb-1 mx-auto">
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Total Points Reached</v-list-item-title>
-                <v-list-item-subtitle>{{overview.totalPoints}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-          <v-card class="mb-1 mx-auto">
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Total Points Possible</v-list-item-title>
-                <v-list-item-subtitle>{{overview.maxPoints}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-          <v-card class="mb-1 mx-auto">
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Test completed</v-list-item-title>
-                <v-list-item-subtitle>{{overview.totalTestRuns}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </div>
-      </v-flex>
+      <v-container v-if="json.length == 0">
+        <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
+        <p class="subheading font-weight-regular">Upload your exportet .xlsx file to get started</p>
+        <v-file-input
+          v-model="file"
+          label="Select xls File..."
+          accept=".xlsx"
+          @change="onFileChange"
+        ></v-file-input>
+      </v-container>
     </v-layout>
-    <bar-diagram></bar-diagram>
-  </v-container>
+    <v-tabs v-if="json.length != 0"  color="red lighten-2 accent-4" center-active>
+      <v-tab ripple>Overview</v-tab>
+      <v-tab ripple>Questions</v-tab>
+      <v-tab ripple>Diagrams</v-tab>
+      <v-tab-item>
+        <v-card flat>
+          <Overview v-bind:overview="overview" />
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <Questions />
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <Charts />
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
+  </div>
 </template>
 
 <script>
-import BarDiagram from "../components/features/BarDiagram";
+// @ is an alias to /src
+import Overview from "@/components/features/Overview.vue";
+import Charts from "@/components/features/Charts.vue";
+import Questions from "@/components/features/Questions.vue";
+
 import XLSX from "xlsx";
-import parse from "../components/features/parseJson";
+import parse from "@/components/features/parseJson";
 export default {
-  name: "StartPage",
+  name: "home",
   components: {
-    BarDiagram
+    Overview,
+    Questions,
+    Charts
   },
   data() {
     return {
@@ -69,7 +65,6 @@ export default {
         let workbook = XLSX.read(data, {
           type: "binary"
         });
-        console.log(workbook);
         workbook.SheetNames.forEach(sheetName => {
           let XL_row_object = XLSX.utils.sheet_to_row_object_array(
             workbook.Sheets[sheetName]
@@ -84,8 +79,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

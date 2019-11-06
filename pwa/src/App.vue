@@ -1,10 +1,7 @@
 <template>
   <v-app id="app">
-
     <core-toolbar/>
-
     <core-navigation/>
-
     <div id="container">
       <v-content>
         <router-view />
