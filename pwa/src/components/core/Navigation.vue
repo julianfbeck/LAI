@@ -1,6 +1,7 @@
 <template>
     <v-navigation-drawer app floating persistent dark
                          mobile-break-point="991"
+                         class="hska-color-primary"
                          v-model="navigation">
         <v-list>
             <v-list-item-group>
@@ -18,7 +19,7 @@
         <v-divider/>
 
         <v-list nav>
-            <v-list-item link router to="/">
+            <v-list-item link router to="/" active-class="hska-color-primary">
                 <v-list-item-icon red>
                     <v-icon>home</v-icon>
                 </v-list-item-icon>
