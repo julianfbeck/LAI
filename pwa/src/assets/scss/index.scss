@@ -1,0 +1,11 @@
+/* https://cli.vuejs.org/guide/css.html#passing-options-to-pre-processor-loaders */
+@import "variables";
+
+// Custom classes
+.hska-color-primary {
+  background-color: $hskaPrimaryColor!important;
+}
+
+.lai-color-gray {
+  background-color: $gray!important;
+}

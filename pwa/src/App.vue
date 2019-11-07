@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" class="lai-color-gray">
     <core-toolbar/>
     <core-navigation/>
     <div id="container">
@@ -12,13 +12,13 @@
   </v-app>
 </template>
 
-<style>
-  #app {
-    background: #eee
-  }
+<style lang="scss">
+  @import '@/assets/scss/index.scss';
 
+  #container, .v-content {
+    height: 100%;
+  }
   #container {
     width: 100%;
-    height: 100%;
   }
 </style>
