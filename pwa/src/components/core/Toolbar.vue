@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar dark app clipped-left color="red lighten-2 accent-4" elevation="0" v-bind:class="{ 'pad-left-navigation': !responsive }">
+    <v-toolbar class="lai-color-gray" elevation="0" v-bind:class="{ 'pl-navigation': !responsive }">
 
         <v-app-bar-nav-icon v-if="responsive" @click.stop="onClickToggleNavigation" />
         <v-toolbar-title>Welcome to LAI - Let's Analyze ILIAS!</v-toolbar-title>
@@ -14,14 +14,14 @@
                     <v-list-item-icon>
                         <v-icon>cloud_download</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>Download Results</v-list-item-title>
+                    <v-list-item-title v-if="!responsive">Download Results</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item link>
-                    <v-list-item-icon >
-                        <v-icon >delete</v-icon>
+                    <v-list-item-icon>
+                        <v-icon color="red">delete</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>Delete</v-list-item-title>
+                    <v-list-item-title v-if="!responsive">Delete</v-list-item-title>
                 </v-list-item>
 
                 <!-- TODO: Should open a modal which describes what could be done depending on the current page -->
@@ -74,8 +74,12 @@
 </script>
 
 <style>
+    .v-toolbar .v-list-item__icon {
+        margin-right: 16px!important;
+    }
+
     /* TODO: Should be removed with a better solution - looks visual ugly */
-    .pad-left-navigation {
+    .pl-navigation {
         padding-left: 260px;
     }
 </style>
