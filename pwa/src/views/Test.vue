@@ -3,16 +3,23 @@
     <v-layout text-center wrap>
       <v-container v-if="json.length == 0">
         <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
-        <p class="subheading font-weight-regular">Upload your exportet .xlsx file to get started</p>
+        <p class="subheading font-weight-regular">
+          Upload your exportet .xlsx file to get started
+        </p>
         <v-file-input
           v-model="file"
           label="Select xls File..."
-          accept=".xlsx"
+          accept=".xml"
           @change="onFileChange"
         ></v-file-input>
+        <v-btn small v-on:click="sample">Load Sample</v-btn>
       </v-container>
     </v-layout>
-    <v-tabs v-if="json.length != 0"  color="red lighten-2 accent-4" center-active>
+    <v-tabs
+      v-if="json.length != 0"
+      color="red lighten-2 accent-4"
+      center-active
+    >
       <v-tab ripple>Overview</v-tab>
       <v-tab ripple>Questions</v-tab>
       <v-tab ripple>Diagrams</v-tab>
@@ -41,8 +48,9 @@ import Overview from "@/components/features/Overview.vue";
 import Charts from "@/components/features/Charts.vue";
 import Questions from "@/components/features/Questions.vue";
 
-import XLSX from "xlsx";
+import xml2js from "xml2js";
 import parse from "@/components/features/parseJson";
+import sample from "@/components/features/sample";
 export default {
   name: "home",
   components: {
@@ -58,19 +66,19 @@ export default {
     };
   },
   methods: {
+    sample() {
+      console.log(sample.results)
+      this.json = sample.results;
+      this.overview = parse.getOverview(this.json);
+    },
     onFileChange() {
       let reader = new FileReader();
+      let parser = new xml2js.Parser();
+
       reader.onload = () => {
         let data = reader.result;
-        let workbook = XLSX.read(data, {
-          type: "binary"
-        });
-        workbook.SheetNames.forEach(sheetName => {
-          let XL_row_object = XLSX.utils.sheet_to_row_object_array(
-            workbook.Sheets[sheetName]
-          );
-
-          this.json.push({ sheetName: sheetName, data: XL_row_object });
+        parser.parseString(data, (err, result) => {
+          this.json = result.results;
         });
         this.overview = parse.getOverview(this.json);
       };

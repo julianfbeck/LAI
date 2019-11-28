@@ -7,4 +7,4 @@ fs.readFile("/Users/julianbeck/Documents/Programming/node/LAI/samples/Commented_
         console.log(result)
         fs.writeFileSync('./result.json', JSON.stringify(result) , 'utf-8'); 
     });
-});ci 
+});
