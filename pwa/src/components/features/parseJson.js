@@ -1,6 +1,5 @@
 
 //get users
-
 const getUsers = (json) => {
     let users  =  json.tst_active[0].row.map(usr => usr.$)
     let usersId = []
@@ -40,7 +39,6 @@ const getQuestions = (json) => {
         }
         //somehow there are the same question with the same timestamp in a pass
         //so we need to check if the questions already exists before adding it
-        
         const found = questionPass[q.active_fi+q.pass].some(el => el.question_fi === q.question_fi);
         if(!found){
             questionPass[q.active_fi+q.pass].push(q)
@@ -106,7 +104,6 @@ const getData = (json) => {
             if (questionParams.passTime[pass.active_fi+pass.pass]!==undefined){
 
                 pass["totalTime"]= questionParams.passTime[pass.active_fi+pass.pass]
-                console.log(pass["totalTime"] )
             }
         });
     });
