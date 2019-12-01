@@ -9,15 +9,24 @@ const getUsers = (json) => {
     users.forEach(usr => {
         usersId[usr.active_id] = usr
         usersId[usr.active_id]["passes"] = []
+        usersId[usr.active_id]["results"] = []
     });
 
     //add test passes to usr
     json.tst_pass_result[0].row.forEach(pass => {
         usersId[pass.$.active_fi]["passes"].push(pass.$)
     });
+    
+    //add results to usr
+    json.tst_result_cache[0].row.forEach(result => {
+        usersId[result.$.active_fi]["results"].push(result.$)
+    });
     return usersId
 }
 
+const getQuestions = (json) => {
+    console.log(json)
+}
 
 
 const getOverview = (json) => {
@@ -33,6 +42,7 @@ const getOverview = (json) => {
 const parse = {
     getOverview,
     getUsers,
+    getQuestions,
 }
 
 export default parse
