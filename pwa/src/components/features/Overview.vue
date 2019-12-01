@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+<v-container>
     <v-layout text-center wrap>
       <v-flex mb-4>
         <div v-if="overview != null">
@@ -11,6 +11,7 @@
                 <v-list-item-subtitle>Total Passes: {{user.passes.length}}</v-list-item-subtitle>
                 <v-list-item-subtitle>Finished Tests: {{user.results.length}}</v-list-item-subtitle>
                 <v-list-item-subtitle>Status: {{user.results[0].mark_official}}</v-list-item-subtitle>
+                <v-list-item-subtitle>Time per run {{user.passes.map(x=>x.totalTime)}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>

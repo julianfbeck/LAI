@@ -27,17 +27,8 @@ const getUsers = (json) => {
 //sort questions by user and the user pass
 const getQuestions = (json) => {
     let questions  =  json.tst_test_result[0].row.map(q => q.$)
-    let questionsId = []
-    questions.forEach(q => {
-        questionsId[q.question_fi] = q
-    });
-    let questionsTime = []
-    questions.forEach(q => {
-        questionsTime[q.tstamp] = q
-    });
-    console.log(questionsTime)
-    //array with quesions per Pass
 
+    //array with quesions per Pass
     let questionPass = []
     questions.forEach(q => {
         if (!questionPass.hasOwnProperty(q.active_fi+q.pass)) {
@@ -51,7 +42,6 @@ const getQuestions = (json) => {
             questionPass[q.active_fi+q.pass].push(q)
         }
     });
-    console.log(questionPass)
     //delta per question
     let questionTime = []
     //i dont want to know the O(n) for this
@@ -75,20 +65,32 @@ const getQuestions = (json) => {
     for (const [key, value] of Object.entries(questionPass)) {
         passTime[key]= value[value.length-1].tstamp-value[0].tstamp
     }
-    return 
+    return {questionPass:questionPass, questionTime:questionTime, passTime:passTime}
 
 }
 
 
-const getOverview = (json) => {
+const getData = (json) => {
     //get Testergebnisse sheet
     let users = getUsers(json)
+    let questionParams = getQuestions(json)
     let userArray = []
     //change user back to an array to work easier with it.
     // eslint-disable-next-line no-unused-vars
     for (const [key, value] of Object.entries(users)) {
         userArray.push(value)
     }
+    //adding test times to passes
+    userArray.forEach(user => {
+        user.passes.forEach(pass => {
+            if (questionParams.passTime[pass.active_fi+pass.pass]!==undefined){
+
+                pass["totalTime"]= questionParams.passTime[pass.active_fi+pass.pass]
+                console.log(pass["totalTime"] )
+            }
+        });
+    });
+    console.log(userArray)
     /*const data = json.filter(sheet => sheet.sheetName === "Testergebnisse")[0].data
     //remove last collumn
     const overview = data.filter(sheet => sheet["Benutzername"] !== undefined)
@@ -102,9 +104,7 @@ const getOverview = (json) => {
     return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns}
 }
 const parse = {
-    getOverview,
-    getUsers,
-    getQuestions,
+    getData,
 }
 
 export default parse
