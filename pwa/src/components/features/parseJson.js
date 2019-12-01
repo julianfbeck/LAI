@@ -1,6 +1,12 @@
 
+//get users
+
 const getUsers = (json) => {
-    return json.filter(sheet => sheet.sheetName !== "Testergebnisse")
+    return json.tst_active[0].row.map(usr => usr.$)
+}
+
+const getPasses = (json) => {
+    return json.tst_active[0].row.map(usr => usr.$)
 }
 
 const getOverview = (json) => {
@@ -16,6 +22,7 @@ const getOverview = (json) => {
 const parse = {
     getOverview,
     getUsers,
+    getPasses
 }
 
 export default parse

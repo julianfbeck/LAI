@@ -67,8 +67,10 @@ export default {
   },
   methods: {
     sample() {
-      console.log(sample.results)
-      this.json = sample.results;
+      this.json = sample.results
+      console.log(this.json.tst_active[0].row)
+      let users = this.json.tst_active[0].row.map(usr => usr.$)
+      console.log(users)
       this.overview = parse.getOverview(this.json);
     },
     onFileChange() {
