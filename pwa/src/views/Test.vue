@@ -70,8 +70,7 @@ export default {
       this.json = sample.results
       let users = parse.getUsers(this.json)
       console.log(users)
-      console.log(parse.addPasses(users, this.json))
-      //console.log(parse.getQuestions(this.json))
+      console.log(parse.getQuestions(this.json))
     },
     onFileChange() {
       let reader = new FileReader();

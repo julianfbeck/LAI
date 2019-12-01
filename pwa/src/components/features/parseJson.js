@@ -25,7 +25,17 @@ const getUsers = (json) => {
 }
 
 const getQuestions = (json) => {
-    console.log(json)
+    let questions  =  json.tst_test_result[0].row.map(q => q.$)
+    let questionsId = {}
+    questions.forEach(q => {
+        questionsId[q.question_fi] = q
+    });
+    let questionsTime = {}
+    questions.forEach(q => {
+        questionsTime[q.tstamp] = q
+    });
+    console.log(questionsTime)
+    return questionsId
 }
 
 
