@@ -9,7 +9,7 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>Question ID: {{q.question_fi}}</v-list-item-title>
-                 <v-list-item-subtitle>Times showen: {{q.times.length}}</v-list-item-subtitle>
+                 <v-list-item-subtitle>Times shown: {{q.times.length}}</v-list-item-subtitle>
                 <v-list-item-subtitle>Times in s: {{q.times}}</v-list-item-subtitle>
                 <v-list-item-subtitle>Average Answer time: {{q.average}}s</v-list-item-subtitle>
               </v-list-item-content>
