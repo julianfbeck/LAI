@@ -30,7 +30,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Questions />
+          <Questions v-bind:questions="questions"/>
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -62,14 +62,14 @@ export default {
     return {
       file: null,
       json: [],
-      overview: null
+      overview: null,
+      questions: null
     };
   },
   methods: {
     sample() {
-      console.log(sample.results)
-      this.json = sample.results;
-      this.overview = parse.getOverview(this.json);
+      this.json = sample.results
+      this.loadData()
     },
     onFileChange() {
       let reader = new FileReader();
@@ -80,9 +80,13 @@ export default {
         parser.parseString(data, (err, result) => {
           this.json = result.results;
         });
-        this.overview = parse.getOverview(this.json);
       };
       reader.readAsBinaryString(this.file);
+      this.loadData()
+    },
+    loadData(){
+      this.overview = parse.getData(this.json);
+      this.questions = this.overview.questions
     }
   }
 };
