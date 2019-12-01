@@ -68,10 +68,8 @@ export default {
   methods: {
     sample() {
       this.json = sample.results
-      console.log(this.json.tst_active[0].row)
-      let users = this.json.tst_active[0].row.map(usr => usr.$)
-      console.log(users)
-      this.overview = parse.getOverview(this.json);
+      let users = parse.getUsers(this.json)
+      console.log(parse.addPasses(users, this.json))
     },
     onFileChange() {
       let reader = new FileReader();

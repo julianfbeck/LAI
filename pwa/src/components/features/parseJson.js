@@ -2,11 +2,19 @@
 //get users
 
 const getUsers = (json) => {
-    return json.tst_active[0].row.map(usr => usr.$)
+    let users  =  json.tst_active[0].row.map(usr => usr.$)
+    let usersId = {}
+    //turn active_id into key
+    //active_id : {usr.data}
+    users.forEach(usr => {
+        usersId[usr.active_id] = usr
+    });
+    return usersId
 }
 
-const getPasses = (json) => {
-    return json.tst_active[0].row.map(usr => usr.$)
+const addPasses = (users, json) => {
+    return json.tst_pass_result.row.map(usr => usr.$)
+  
 }
 
 const getOverview = (json) => {
@@ -22,7 +30,7 @@ const getOverview = (json) => {
 const parse = {
     getOverview,
     getUsers,
-    getPasses
+    addPasses
 }
 
 export default parse
