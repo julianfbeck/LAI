@@ -4,26 +4,28 @@
       <v-flex mb-4>
         <div v-if="overview != null">
           <p class="display-3">Overview</p>
-          <v-card class="mb-1 mx-auto">
+          <v-card class="mb-1 mx-auto" v-for="user in overview.users" v-bind:key="user.active_id">
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>Total Points Reached</v-list-item-title>
-                <v-list-item-subtitle>{{overview.totalPoints}}</v-list-item-subtitle>
+                <v-list-item-title>Name: {{user.fullname}}, Login: {{user.login}}</v-list-item-title>
+                <v-list-item-subtitle>Total Passes: {{user.passes.length}}</v-list-item-subtitle>
+                <v-list-item-subtitle>Finished Tests: {{user.results.length}}</v-list-item-subtitle>
+                <v-list-item-subtitle>Status: {{user.results[0].mark_official}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>
           <v-card class="mb-1 mx-auto">
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>Total Points Possible</v-list-item-title>
-                <v-list-item-subtitle>{{overview.maxPoints}}</v-list-item-subtitle>
+                <v-list-item-title>Total unique Users</v-list-item-title>
+                <v-list-item-subtitle>{{overview.uniqueUsers}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-card>
           <v-card class="mb-1 mx-auto">
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>Test completed</v-list-item-title>
+                <v-list-item-title>Total Test Runs</v-list-item-title>
                 <v-list-item-subtitle>{{overview.totalTestRuns}}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>

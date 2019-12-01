@@ -43,8 +43,9 @@ const getQuestions = (json) => {
         if (!questionPass.hasOwnProperty(q.active_fi+q.pass)) {
             questionPass[q.active_fi+q.pass] = []
         }
-        //somehow there are sometimes the same question with the same timestamp in a pass
-        //so we need to check if the questions already exists.
+        //somehow there are the same question with the same timestamp in a pass
+        //so we need to check if the questions already exists before adding it
+        
         const found = questionPass[q.active_fi+q.pass].some(el => el.question_fi === q.question_fi);
         if(!found){
             questionPass[q.active_fi+q.pass].push(q)
@@ -61,7 +62,7 @@ const getQuestions = (json) => {
                 questionTime[passes[i].question_fi] = []
             }
             if(passes[i+1]===undefined){
-                //next question is undifined, so we dont know the time
+                //next question is undefined, so we cant calc the answer time 
                 questionTime[passes[i].question_fi].push(0)
             }else{
                 questionTime[passes[i].question_fi].push(passes[i+1].tstamp-passStartTime)
@@ -74,21 +75,31 @@ const getQuestions = (json) => {
     for (const [key, value] of Object.entries(questionPass)) {
         passTime[key]= value[value.length-1].tstamp-value[0].tstamp
     }
-    console.log(passTime)
-    return questionsId
+    return 
 
 }
 
 
 const getOverview = (json) => {
     //get Testergebnisse sheet
-    const data = json.filter(sheet => sheet.sheetName === "Testergebnisse")[0].data
+    let users = getUsers(json)
+    let userArray = []
+    //change user back to an array to work easier with it.
+    // eslint-disable-next-line no-unused-vars
+    for (const [key, value] of Object.entries(users)) {
+        userArray.push(value)
+    }
+    /*const data = json.filter(sheet => sheet.sheetName === "Testergebnisse")[0].data
     //remove last collumn
     const overview = data.filter(sheet => sheet["Benutzername"] !== undefined)
     const maxPoints = overview.reduce((a,b) => a + Number(b["Maximal erreichbare Punktezahl"]), 0)
     const totalPoints = overview.reduce((a,b) => a + Number(b["Testergebnis in Punkten"]), 0)
-    const totalTestRuns  =  overview.reduce((a,b) => a + Number(b["Durchlauf"]), 0)
-    return {maxPoints: maxPoints, totalPoints: totalPoints, totalTestRuns: totalTestRuns}
+    */
+    const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
+    const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
+
+    
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns}
 }
 const parse = {
     getOverview,

@@ -68,9 +68,7 @@ export default {
   methods: {
     sample() {
       this.json = sample.results
-      let users = parse.getUsers(this.json)
-      console.log(users)
-      console.log(parse.getQuestions(this.json))
+      this.loadData()
     },
     onFileChange() {
       let reader = new FileReader();
@@ -81,9 +79,13 @@ export default {
         parser.parseString(data, (err, result) => {
           this.json = result.results;
         });
-        this.overview = parse.getOverview(this.json);
       };
       reader.readAsBinaryString(this.file);
+      this.loadData()
+    },
+    loadData(){
+      this.overview = parse.getOverview(this.json);
+      console.log(this.overview)
     }
   }
 };
