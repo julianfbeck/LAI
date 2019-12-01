@@ -46,7 +46,6 @@ const getQuestions = (json) => {
         //somehow there are sometimes the same question with the same timestamp in a pass
         //so we need to check if the questions already exists.
         const found = questionPass[q.active_fi+q.pass].some(el => el.question_fi === q.question_fi);
-        
         if(!found){
             questionPass[q.active_fi+q.pass].push(q)
         }
@@ -54,18 +53,15 @@ const getQuestions = (json) => {
     console.log(questionPass)
     //delta per question
     let questionTime = []
-    
+    //i dont want to know the O(n) for this
     questionPass.forEach(passes => {
-        console.log("pass")
         let passStartTime = passes[0].tstamp
         for (let i = 0; i < passes.length; i++) {
-            console.log(passes[i].tstamp)
             if (!questionTime.hasOwnProperty(passes[i].question_fi)) {
                 questionTime[passes[i].question_fi] = []
             }
             if(passes[i+1]===undefined){
                 //next question is undifined, so we dont know the time
-                passes[i]
                 questionTime[passes[i].question_fi].push(0)
             }else{
                 questionTime[passes[i].question_fi].push(passes[i+1].tstamp-passStartTime)
@@ -73,7 +69,12 @@ const getQuestions = (json) => {
             passStartTime = passes[i].tstamp
         }
     });
-    console.log(questionTime)
+    let passTime = []
+    
+    for (const [key, value] of Object.entries(questionPass)) {
+        passTime[key]= value[value.length-1].tstamp-value[0].tstamp
+    }
+    console.log(passTime)
     return questionsId
 
 }
