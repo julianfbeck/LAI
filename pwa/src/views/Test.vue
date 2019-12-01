@@ -69,6 +69,7 @@ export default {
     sample() {
       this.json = sample.results
       let users = parse.getUsers(this.json)
+      console.log(users)
       console.log(parse.addPasses(users, this.json))
     },
     onFileChange() {
