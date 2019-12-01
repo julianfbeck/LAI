@@ -30,7 +30,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Questions />
+          <Questions v-bind:questions="questions"/>
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -62,7 +62,8 @@ export default {
     return {
       file: null,
       json: [],
-      overview: null
+      overview: null,
+      questions: null
     };
   },
   methods: {
@@ -84,8 +85,8 @@ export default {
       this.loadData()
     },
     loadData(){
-      this.overview = parse.getOverview(this.json);
-      console.log(this.overview)
+      this.overview = parse.getData(this.json);
+      this.questions = this.overview.questions
     }
   }
 };

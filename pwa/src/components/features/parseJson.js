@@ -24,10 +24,14 @@ const getUsers = (json) => {
     return usersId
 }
 
-//sort questions by user and the user pass
+//sort questions and times. This is build on top of the tst_result object. 
+//this means only data when a test is finished will be added
 const getQuestions = (json) => {
     let questions  =  json.tst_test_result[0].row.map(q => q.$)
-
+    let questionsId = []
+    questions.forEach(q => {
+        questionsId[q.question_fi] = q
+    });
     //array with quesions per Pass
     let questionPass = []
     questions.forEach(q => {
@@ -60,12 +64,22 @@ const getQuestions = (json) => {
             passStartTime = passes[i].tstamp
         }
     });
+    //calculate time per pass
     let passTime = []
-    
-    for (const [key, value] of Object.entries(questionPass)) {
-        passTime[key]= value[value.length-1].tstamp-value[0].tstamp
+    for (const [id, passes] of Object.entries(questionPass)) {
+        passTime[id]= passes[passes.length-1].tstamp-passes[0].tstamp
     }
-    return {questionPass:questionPass, questionTime:questionTime, passTime:passTime}
+    //add average and time to question
+    for (const [id, times] of Object.entries(questionTime)) {
+        if(questionsId[id] !== undefined){
+            questionsId[id]["times"]  = times
+            let nonZeroTimes = times.filter(time => time>0)
+            questionsId[id]["average"] = (nonZeroTimes.reduce((a,b) => a + Number(b), 0)/nonZeroTimes.length) || 0
+
+        }
+    }
+    
+    return {questionsId: questionsId, passTime:passTime}
 
 }
 
@@ -75,10 +89,16 @@ const getData = (json) => {
     let users = getUsers(json)
     let questionParams = getQuestions(json)
     let userArray = []
+    let questionArray = []
+
     //change user back to an array to work easier with it.
     // eslint-disable-next-line no-unused-vars
     for (const [key, value] of Object.entries(users)) {
         userArray.push(value)
+    }
+    // eslint-disable-next-line no-unused-vars
+    for (const [key, value] of Object.entries(questionParams.questionsId)) {
+        questionArray.push(value)
     }
     //adding test times to passes
     userArray.forEach(user => {
@@ -90,21 +110,14 @@ const getData = (json) => {
             }
         });
     });
-    console.log(userArray)
-    /*const data = json.filter(sheet => sheet.sheetName === "Testergebnisse")[0].data
-    //remove last collumn
-    const overview = data.filter(sheet => sheet["Benutzername"] !== undefined)
-    const maxPoints = overview.reduce((a,b) => a + Number(b["Maximal erreichbare Punktezahl"]), 0)
-    const totalPoints = overview.reduce((a,b) => a + Number(b["Testergebnis in Punkten"]), 0)
-    */
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
     
-    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns}
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray}
 }
 const parse = {
-    getData,
+    getData
 }
 
 export default parse
