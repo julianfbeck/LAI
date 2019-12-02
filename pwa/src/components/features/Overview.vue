@@ -3,7 +3,6 @@
     <v-layout wrap>
       <v-flex mb-4>
         <div v-if="overview != null">
-          <p class="display-3">Overview</p>
           <v-card class="mb-1 mx-auto" v-for="user in overview.users" v-bind:key="user.active_id">
             <v-card-text>
               <p class="headline text--primary">Name: {{user.fullname}}, Login: {{user.login}}</p>

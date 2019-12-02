@@ -1,15 +1,16 @@
 <template>
   <div>
+    <p v-if="json.length != 0" class="title ml-5">{{overview.title}}</p>
     <v-layout text-center wrap>
       <v-container v-if="json.length == 0">
         <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
         <p class="subheading font-weight-regular">
-          Upload your exportet .xlsx file to get started
+          Upload your exportet .zip file to get started
         </p>
         <v-file-input
           v-model="file"
           label="Select xls File..."
-          accept=".xml"
+          accept=".zip"
           @change="onFileChange"
         ></v-file-input>
         <v-btn small v-on:click="sample">Load Sample</v-btn>
@@ -30,7 +31,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Questions v-bind:questions="questions"/>
+          <Questions v-bind:questions="questions" />
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -49,6 +50,7 @@ import Charts from "@/components/features/Charts.vue";
 import Questions from "@/components/features/Questions.vue";
 
 import xml2js from "xml2js";
+import jszip from "jszip";
 import parse from "@/components/features/parseJson";
 import sample from "@/components/features/sample";
 export default {
@@ -61,6 +63,7 @@ export default {
   data() {
     return {
       file: null,
+      qti: null,
       json: [],
       overview: null,
       questions: null
@@ -68,25 +71,44 @@ export default {
   },
   methods: {
     sample() {
-      this.json = sample.results
-      this.loadData()
+      this.json = sample.example.results;
+      this.qti = sample.qti
+      this.loadData();
     },
     onFileChange() {
-      let reader = new FileReader();
       let parser = new xml2js.Parser();
+      jszip
+        .loadAsync(this.file)
+        .then(content => {
+          // if you return a promise in a "then", you will chain the two promises
+          let qti = null;
+          let result = null;
+          for (const [name, file] of Object.entries(content.files)) {
+            if (name.includes("qti")) {
+              qti = file;
+            }
+            if (name.includes("result")) {
+              result = file;
+            }
+          }
 
-      reader.onload = () => {
-        let data = reader.result;
-        parser.parseString(data, (err, result) => {
-          this.json = result.results;
+          return Promise.all([qti.async("text"), result.async("text")]);
+        })
+        .then(txt => {
+          parser.parseString(txt[0], (err, result) => {
+            this.qti = result.questestinterop.assessment[0]
+            console.log(JSON.stringify(this.qti))
+          });
+          parser.parseString(txt[1], (err, result) => {
+            this.json = result.results;
+          });
+          this.loadData();
         });
-      };
-      reader.readAsBinaryString(this.file);
-      this.loadData()
     },
-    loadData(){
-      this.overview = parse.getData(this.json);
-      this.questions = this.overview.questions
+    loadData() {
+      console.log(this.qti)
+      this.overview = parse.getData(this.json, this.qti);
+      this.questions = this.overview.questions;
     }
   }
 };
