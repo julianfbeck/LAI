@@ -9,7 +9,7 @@
         <v-file-input
           v-model="file"
           label="Select xls File..."
-          accept=".xml"
+          accept=".zip"
           @change="onFileChange"
         ></v-file-input>
         <v-btn small v-on:click="sample">Load Sample</v-btn>
@@ -30,7 +30,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Questions v-bind:questions="questions"/>
+          <Questions v-bind:questions="questions" />
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -49,6 +49,7 @@ import Charts from "@/components/features/Charts.vue";
 import Questions from "@/components/features/Questions.vue";
 
 import xml2js from "xml2js";
+import jszip from "jszip";
 import parse from "@/components/features/parseJson";
 import sample from "@/components/features/sample";
 export default {
@@ -61,6 +62,7 @@ export default {
   data() {
     return {
       file: null,
+      qti: null,
       json: [],
       overview: null,
       questions: null
@@ -68,25 +70,41 @@ export default {
   },
   methods: {
     sample() {
-      this.json = sample.results
-      this.loadData()
+      this.json = sample.results;
+      this.loadData();
     },
     onFileChange() {
-      let reader = new FileReader();
       let parser = new xml2js.Parser();
+      jszip
+        .loadAsync(this.file)
+        .then(content => {
+          // if you return a promise in a "then", you will chain the two promises
+          let qti = null;
+          let result = null;
+          for (const [name, file] of Object.entries(content.files)) {
+            if (name.includes("qti")) {
+              qti = file;
+            }
+            if (name.includes("result")) {
+              result = file;
+            }
+          }
 
-      reader.onload = () => {
-        let data = reader.result;
-        parser.parseString(data, (err, result) => {
-          this.json = result.results;
+          return Promise.all([qti.async("text"), result.async("text")]);
+        })
+        .then(txt => {
+          parser.parseString(txt[0], (err, result) => {
+            this.qti = result.questestinterop.assessment
+          });
+          parser.parseString(txt[1], (err, result) => {
+            this.json = result.results;
+          });
+          this.loadData();
         });
-      };
-      reader.readAsBinaryString(this.file);
-      this.loadData()
     },
-    loadData(){
-      this.overview = parse.getData(this.json);
-      this.questions = this.overview.questions
+    loadData() {
+      this.overview = parse.getData(this.json, this.qti);
+      this.questions = this.overview.questions;
     }
   }
 };
