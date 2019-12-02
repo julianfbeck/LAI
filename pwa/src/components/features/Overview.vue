@@ -1,20 +1,19 @@
 <template>
 <v-container>
-    <v-layout text-center wrap>
+    <v-layout wrap>
       <v-flex mb-4>
         <div v-if="overview != null">
           <p class="display-3">Overview</p>
           <v-card class="mb-1 mx-auto" v-for="user in overview.users" v-bind:key="user.active_id">
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Name: {{user.fullname}}, Login: {{user.login}}</v-list-item-title>
-                <v-list-item-subtitle>Total Passes: {{user.passes.length}}</v-list-item-subtitle>
-                <v-list-item-subtitle>Finished Tests: {{user.results.length}}</v-list-item-subtitle>
-                <v-list-item-subtitle>Status: {{user.results[0].mark_official}}</v-list-item-subtitle>
-                <v-list-item-subtitle>Time per run {{user.passes.map(x=>x.totalTime)}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <v-card-text>
+              <p class="headline text--primary">Name: {{user.fullname}}, Login: {{user.login}}</p>
+                <div class="text--primary">Total Passes: {{user.passes.length}}</div>
+                <div class="text--primary">Finished Tests: {{user.results.length}}</div>
+                <div class="text--primary">Status: {{user.results[0].mark_official}}</div>
+                <div class="text--primary">Time per pass: {{user.passes.map(x=>x.totalTime)}}</div>
+            </v-card-text>
           </v-card>
+            <v-divider class="ma-3"></v-divider>
           <v-card class="mb-1 mx-auto">
             <v-list-item>
               <v-list-item-content>

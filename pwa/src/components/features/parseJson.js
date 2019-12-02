@@ -73,7 +73,7 @@ const getQuestions = (json) => {
             questionsId[id]["times"]  = times
             let nonZeroTimes = times.filter(time => time>0)
             questionsId[id]["average"] = (nonZeroTimes.reduce((a,b) => a + Number(b), 0)/nonZeroTimes.length) || 0
-
+            questionsId[id]["timeString"] = times.join(", ")
         }
     }
     

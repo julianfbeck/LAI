@@ -1,22 +1,27 @@
 <template>
 <v-container>
-    <v-layout text-center wrap>
+    <v-layout wrap>
       <v-flex mb-4>
         <div v-if="questions != null">
           <p class="display-3">Question</p>
           <v-card class="mb-1 mx-auto" v-for="q in  questions" v-bind:key="q.question_fi">
-        
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title>Question ID: {{q.question_fi}}</v-list-item-title>
-                 <v-list-item-subtitle>Times shown: {{q.times.length}}</v-list-item-subtitle>
-                <v-list-item-subtitle>Times in s: {{q.times}}</v-list-item-subtitle>
-                <v-list-item-subtitle>Average Answer time: {{q.average}}s</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+              <v-card-text>
+              <p class="headline text--primary">Question ID: {{q.question_fi}}</p>
+                <div class="text--primary">Times shown: {{q.times.length}}</div>
+                <div class="text--primary">Times in s: {{q.times}}</div>
+                <div class="text--primary">Average Answer time: {{q.average}}s</div>
+            </v-card-text>
           </v-card>
         </div>
       </v-flex>
+        <v-data-table
+    :headers="headers"
+    :items="questions"
+    :sort-by="['question_fi']"
+    :sort-desc="[true, true, true, false]"
+    multi-sort
+    class="elevation-1"
+  ></v-data-table>
     </v-layout>
   </v-container>
 </template>
@@ -30,7 +35,12 @@ export default {
   mounted(){
   },
   data() {
-    return {};
+    return {       headers: [
+          { text: 'Question id', value: 'question_fi' },
+          { text: 'Average Answer time (s)', value: 'average' },
+          { text: 'Times shown', value: 'times.length' },
+          { text: 'Answer times', value: 'timeString', sortable: false},
+        ],};
   }
 };
 </script>
