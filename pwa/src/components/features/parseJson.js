@@ -91,7 +91,6 @@ const getInformation = (qti) => {
         questionTitles[question_ID] = item.$.title
 
     });
-    console.log(questionTitles)
     return {title:qti.$.title, titles:questionTitles}
 }
 const getData = (json, qti) => {
@@ -122,7 +121,6 @@ const getData = (json, qti) => {
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
-    console.log(questionArray)
     return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title}
 }
 const parse = {

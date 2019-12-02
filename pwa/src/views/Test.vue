@@ -97,7 +97,6 @@ export default {
         .then(txt => {
           parser.parseString(txt[0], (err, result) => {
             this.qti = result.questestinterop.assessment[0]
-            console.log(JSON.stringify(this.qti))
           });
           parser.parseString(txt[1], (err, result) => {
             this.json = result.results;
