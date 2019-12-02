@@ -3,7 +3,6 @@
     <v-layout wrap>
       <v-flex mb-4>
         <div v-if="questions != null">
-          <p class="display-3">Question</p>
           <v-card
             class="mb-1 mx-auto"
             v-for="q in questions"
@@ -11,8 +10,9 @@
           >
             <v-card-text>
               <p class="headline text--primary">
-                Question ID: {{ q.question_fi }}
+                Question: {{ q.title }}
               </p>
+              <div class="text--primary">Question ID: {{ q.question_fi }}</div>
               <div class="text--primary">Times shown: {{ q.times.length }}</div>
               <div class="text--primary">Times in s: {{ q.times }}</div>
               <div class="text--primary">
@@ -46,7 +46,8 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Question id", value: "question_fi" },
+         { text: "Question", value: "title" },
+        { text: "ID", value: "question_fi" },
         { text: "Average Answer time (s)", value: "average" },
         { text: "Times shown", value: "times.length" },
         { text: "Answer times", value: "timeString", sortable: false }

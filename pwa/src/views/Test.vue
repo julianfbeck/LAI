@@ -1,10 +1,11 @@
 <template>
   <div>
+    <p v-if="json.length != 0" class="title ml-5">{{overview.title}}</p>
     <v-layout text-center wrap>
       <v-container v-if="json.length == 0">
         <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
         <p class="subheading font-weight-regular">
-          Upload your exportet .xlsx file to get started
+          Upload your exportet .zip file to get started
         </p>
         <v-file-input
           v-model="file"
@@ -70,7 +71,8 @@ export default {
   },
   methods: {
     sample() {
-      this.json = sample.results;
+      this.json = sample.example.results;
+      this.qti = sample.qti
       this.loadData();
     },
     onFileChange() {
@@ -95,6 +97,7 @@ export default {
         .then(txt => {
           parser.parseString(txt[0], (err, result) => {
             this.qti = result.questestinterop.assessment[0]
+            console.log(JSON.stringify(this.qti))
           });
           parser.parseString(txt[1], (err, result) => {
             this.json = result.results;

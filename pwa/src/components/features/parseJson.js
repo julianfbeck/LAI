@@ -25,9 +25,11 @@ const getUsers = (json) => {
 
 //sort questions and times. This is build on top of the tst_result object. 
 //this means only data when a test is finished will be added
-const getQuestions = (json) => {
+const getQuestions = (json, qti) => {
     let questions  =  json.tst_test_result[0].row.map(q => q.$)
     let questionsId = []
+    let information = getInformation(qti)
+
     questions.forEach(q => {
         questionsId[q.question_fi] = q
     });
@@ -74,10 +76,11 @@ const getQuestions = (json) => {
             let nonZeroTimes = times.filter(time => time>0)
             questionsId[id]["average"] = (nonZeroTimes.reduce((a,b) => a + Number(b), 0)/nonZeroTimes.length) || 0
             questionsId[id]["timeString"] = times.join(", ")
+            questionsId[id]["title"] = information.titles[id]
         }
     }
     
-    return {questionsId: questionsId, passTime:passTime}
+    return {questionsId: questionsId, passTime:passTime,title:information.title}
 
 }
 
@@ -89,14 +92,12 @@ const getInformation = (qti) => {
 
     });
     console.log(questionTitles)
-    return {title:qti.$.title}
+    return {title:qti.$.title, titles:questionTitles}
 }
 const getData = (json, qti) => {
     //get Testergebnisse sheet
     let users = getUsers(json)
-    let questionParams = getQuestions(json)
-    let information = getInformation(qti)
-    console.log(information)
+    let questionParams = getQuestions(json,qti)
     let userArray = []
     let questionArray = []
 
@@ -121,8 +122,8 @@ const getData = (json, qti) => {
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
-    
-    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, information:information}
+    console.log(questionArray)
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title}
 }
 const parse = {
     getData
