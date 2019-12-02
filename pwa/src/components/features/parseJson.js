@@ -82,7 +82,13 @@ const getQuestions = (json) => {
 }
 
 const getInformation = (qti) => {
-    console.log(qti)
+    let questionTitles = []
+    qti.section[0].item.forEach(item => {
+        let question_ID = item.$.ident.split("_").pop()
+        questionTitles[question_ID] = item.$.title
+
+    });
+    console.log(questionTitles)
     return {title:qti.$.title}
 }
 const getData = (json, qti) => {
