@@ -81,11 +81,16 @@ const getQuestions = (json) => {
 
 }
 
-
-const getData = (json) => {
+const getInformation = (qti) => {
+    console.log(qti)
+    return {title:qti.$.title}
+}
+const getData = (json, qti) => {
     //get Testergebnisse sheet
     let users = getUsers(json)
     let questionParams = getQuestions(json)
+    let information = getInformation(qti)
+    console.log(information)
     let userArray = []
     let questionArray = []
 
@@ -111,7 +116,7 @@ const getData = (json) => {
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
     
-    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray}
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, information:information}
 }
 const parse = {
     getData

@@ -94,7 +94,7 @@ export default {
         })
         .then(txt => {
           parser.parseString(txt[0], (err, result) => {
-            this.qti = result.questestinterop.assessment
+            this.qti = result.questestinterop.assessment[0]
           });
           parser.parseString(txt[1], (err, result) => {
             this.json = result.results;
@@ -103,6 +103,7 @@ export default {
         });
     },
     loadData() {
+      console.log(this.qti)
       this.overview = parse.getData(this.json, this.qti);
       this.questions = this.overview.questions;
     }
