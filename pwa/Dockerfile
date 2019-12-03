@@ -9,8 +9,6 @@ COPY . /app
 # make the 'app' folder the current working directory
 WORKDIR /app
 
-RUN pwd && ls -lah
-
 # install simple http server for serving static content
 RUN npm install -g http-server &&\
     rm -rf node_modules package-lock.json yarn.lock &&\
