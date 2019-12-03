@@ -34,6 +34,14 @@ variable "region" {
   default = "Karlsruhe"
 }
 
+variable "DOCKER_USERNAME" {
+  type = "string"
+}
+
+variable "DOCKER_PASSWORD" {
+  type = "string"
+}
+
 # remote state
 # see https://www.ibm.com/cloud/blog/store-terraform-states-cloud-object-storage
 
@@ -50,4 +58,3 @@ terraform {
     endpoint                    = "s3.eu-de.cloud-object-storage.appdomain.cloud"
   }
 }
-

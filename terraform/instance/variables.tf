@@ -13,3 +13,11 @@ variable "petname" {
 variable "instance_name" {
   type = "string"
 }
+
+variable "DOCKER_USERNAME" {
+  type = "string"
+}
+
+variable "DOCKER_PASSWORD" {
+  type = "string"
+}
