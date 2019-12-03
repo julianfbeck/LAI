@@ -1,4 +1,4 @@
 variable petname {
-  type = "string"
+  type = string
 }
 

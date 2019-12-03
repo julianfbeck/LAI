@@ -3,13 +3,21 @@ variable "flavor" {
 }
 
 variable "sec_id" {
-  type = "string"
+  type = string
 }
 
 variable "petname" {
-  type = "string"
+  type = string
 }
 
 variable "instance_name" {
-  type = "string"
+  type = string
+}
+
+variable "DOCKER_USERNAME" {
+  type = string
+}
+
+variable "DOCKER_PASSWORD" {
+  type = string
 }

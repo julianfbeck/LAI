@@ -1,3 +1,73 @@
+stages:
+  - build
+  - push
+  - validate
+  - prepare
+  - deploy
+  - clean
+
+build:docker:
+  stage: build
+  tags:
+  - shared
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - ''
+  script:
+    - >
+      /kaniko/executor --no-push
+      --context ${CI_PROJECT_DIR}/pwa
+      --dockerfile ${CI_PROJECT_DIR}/pwa/Dockerfile
+      --destination ${CI_REGISTRY_IMAGE}
+
+push:docker:tags:
+  only:
+  - tags
+  stage: push
+  tags:
+  - shared
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - ''
+  script:
+    - >
+      echo "{\"auths\":{\"${CI_REGISTRY}\"
+      :{\"username\":\"${CI_REGISTRY_USER}\",\"password\"
+      :\"${CI_REGISTRY_PASSWORD}\"}}}" > /kaniko/.docker/config.json
+    - >
+      /kaniko/executor
+      --cache=true
+      --context ${CI_PROJECT_DIR}/pwa
+      --dockerfile ${CI_PROJECT_DIR}/pwa/Dockerfile
+      --destination ${CI_REGISTRY_IMAGE}
+
+push:docker:latest:
+  only:
+  - master
+  stage: push
+  tags:
+  - shared
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - ''
+  script:
+    - >
+      echo "{\"auths\":{\"${CI_REGISTRY}\"
+      :{\"username\":\"${CI_REGISTRY_USER}\",\"password\"
+      :\"${CI_REGISTRY_PASSWORD}\"}}}" > /kaniko/.docker/config.json
+    - >
+      /kaniko/executor
+      --cache=true
+      --context ${CI_PROJECT_DIR}/pwa
+      --dockerfile ${CI_PROJECT_DIR}/pwa/Dockerfile
+      --destination ${CI_REGISTRY_IMAGE}
+
 image:
   name: hashicorp/terraform:light
   entrypoint:
@@ -20,12 +90,6 @@ before_script:
   - terraform init --backend-config backend.tfvars
   - terraform --version
   - pwd
-
-stages:
-  - validate
-  - prepare
-  - deploy
-  - clean
 
 validate:
   stage: validate
