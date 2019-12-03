@@ -6,5 +6,5 @@ packages:
 runcmd:
   - logger "runcmd started"
   - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-  - docker run -d -p 80:8082 hskatgl/lai
+  - docker run -d -p 80:80 hskatgl/lai
   - logger "runcmd finished"

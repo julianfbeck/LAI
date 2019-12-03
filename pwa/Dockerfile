@@ -17,5 +17,5 @@ RUN npm install -g http-server &&\
     npm cache clean -f &&\
     npm run build
 
-EXPOSE 8082
-CMD [ "http-server", "dist", "-p", "8082"]
+EXPOSE 80
+CMD [ "http-server", "dist", "-p", "80"]
