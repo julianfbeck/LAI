@@ -14,7 +14,7 @@ build:docker:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   before_script:
-    - ''
+    - 'cd pwa'
   script:
     - >
       /kaniko/executor --no-push
@@ -32,7 +32,7 @@ push:docker:tags:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   before_script:
-    - ''
+    - 'cd pwa'
   script:
     - >
       echo "{\"auths\":{\"${CI_REGISTRY}\"
@@ -55,7 +55,7 @@ push:docker:latest:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   before_script:
-    - ''
+    - 'cd pwa'
   script:
     - >
       echo "{\"auths\":{\"${CI_REGISTRY}\"
