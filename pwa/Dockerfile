@@ -7,7 +7,7 @@ FROM node:lts-alpine
 COPY . /app
 
 # make the 'app' folder the current working directory
-WORKDIR /app
+WORKDIR /app/pwa
 
 RUN ls -lah
 
