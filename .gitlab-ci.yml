@@ -14,13 +14,13 @@ build:docker:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   before_script:
-    - 'cd pwa'
+    - ''
   script:
     - >
       /kaniko/executor --no-push
-      --context ${CI_PROJECT_DIR}
+      --context ${CI_PROJECT_DIR}/pwa
       --dockerfile ${CI_PROJECT_DIR}/pwa/Dockerfile
-      --destination ${CI_REGISTRY_IMAGE}/pwa
+      --destination ${CI_REGISTRY_IMAGE}
 
 push:docker:tags:
   only:
@@ -32,7 +32,7 @@ push:docker:tags:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   before_script:
-    - 'cd pwa'
+    - ''
   script:
     - >
       echo "{\"auths\":{\"${CI_REGISTRY}\"
@@ -41,9 +41,9 @@ push:docker:tags:
     - >
       /kaniko/executor
       --cache=true
-      --context ${CI_PROJECT_DIR}
+      --context ${CI_PROJECT_DIR}/pwa
       --dockerfile ${CI_PROJECT_DIR}/pwa/Dockerfile
-      --destination ${CI_REGISTRY_IMAGE}/pwa
+      --destination ${CI_REGISTRY_IMAGE}
 
 push:docker:latest:
   only:
@@ -55,7 +55,7 @@ push:docker:latest:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   before_script:
-    - 'cd pwa'
+    - ''
   script:
     - >
       echo "{\"auths\":{\"${CI_REGISTRY}\"
@@ -64,9 +64,9 @@ push:docker:latest:
     - >
       /kaniko/executor
       --cache=true
-      --context ${CI_PROJECT_DIR}
+      --context ${CI_PROJECT_DIR}/pwa
       --dockerfile ${CI_PROJECT_DIR}/pwa/Dockerfile
-      --destination ${CI_REGISTRY_IMAGE}/pwa
+      --destination ${CI_REGISTRY_IMAGE}
 
 image:
   name: hashicorp/terraform:light
