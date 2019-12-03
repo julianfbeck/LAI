@@ -35,11 +35,11 @@ variable "region" {
 }
 
 variable "DOCKER_USERNAME" {
-  type = "string"
+  type = string
 }
 
 variable "DOCKER_PASSWORD" {
-  type = "string"
+  type = string
 }
 
 # remote state
