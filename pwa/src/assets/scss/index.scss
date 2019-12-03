@@ -1,9 +1,31 @@
 /* https://cli.vuejs.org/guide/css.html#passing-options-to-pre-processor-loaders */
 @import "variables";
 
-// Custom classes
-.hska-color-primary {
+// Global un-assignable styles
+main h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 3.125rem;
+  margin-bottom: 12px;
+}
+
+main > div > .container {
+  padding-bottom: 57px;
+}
+
+// Overwrite theme styles
+.theme--light.v-card.v-card--flat,
+.theme--light.v-tabs > .v-tabs-bar {
+  background-color: $gray!important;
+}
+
+// Custom assignable classes
+.hska-color-primary, .hska-btn-primary {
   background-color: $hskaPrimaryColor!important;
+}
+
+.hska-btn-primary {
+  color: white!important;
 }
 
 .lai-color-gray {

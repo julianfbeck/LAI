@@ -1,25 +1,25 @@
 <template>
-  <div>
-    <p v-if="json.length != 0" class="title ml-5">{{overview.title}}</p>
+  <v-container fluid>
+    <h2 v-if="json.length != 0" class="text-center">Results of "{{overview.title}}"</h2>
     <v-layout text-center wrap>
       <v-container v-if="json.length == 0">
-        <h1 class="display-2 font-weight-bold mb-3">Welcome to LAI</h1>
+        <h1>Analyze a Test</h1>
         <p class="subheading font-weight-regular">
           Upload your exportet .zip file to get started
         </p>
         <v-file-input
-          v-model="file"
-          label="Select xls File..."
-          accept=".zip"
-          @change="onFileChange"
+                v-model="file"
+                label="Select xls File..."
+                accept=".zip"
+                @change="onFileChange"
         ></v-file-input>
         <v-btn small v-on:click="sample">Load Sample</v-btn>
       </v-container>
     </v-layout>
     <v-tabs
-      v-if="json.length != 0"
-      color="red lighten-2 accent-4"
-      center-active
+            v-if="json.length != 0"
+            color="red lighten-2 accent-4"
+            center-active
     >
       <v-tab ripple>Overview</v-tab>
       <v-tab ripple>Questions</v-tab>
@@ -40,7 +40,7 @@
         </v-card>
       </v-tab-item>
     </v-tabs>
-  </div>
+  </v-container>
 </template>
 
 <script>

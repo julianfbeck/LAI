@@ -7,7 +7,7 @@
             <v-list-item-group>
                 <v-list-item>
                     <v-list-item-avatar color="white">
-                        <v-img contain src="@/assets/hska_logo.png" alt="Logo" height="26"></v-img>
+                        <v-img contain src="@/assets/hska-logo.png" alt="Logo" height="26"></v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>Let's Analyze ILIAS</v-list-item-title>
@@ -36,7 +36,7 @@
                 <v-list-item-title>Analyze Test</v-list-item-title>
             </v-list-item>
 
-            <v-list-item link router to="analyze-course">
+            <v-list-item link router to="analyze-course" disabled>
                 <v-list-item-icon>
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-icon>

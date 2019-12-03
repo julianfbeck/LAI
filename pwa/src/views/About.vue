@@ -1,6 +1,11 @@
 <template>
-  <v-container>
-    <h1>"Beju ist besser als Sito im kickern" </h1>
-    <h4>Tobias Sigmann, 11.01.2019 </h4>
-  </v-container>
+    <v-container>
+        <v-col cols="12" class="text-center">
+            <h1>About us</h1>
+            <br>
+            <p>Karlsruhe University of Applied Sciences<br>
+                Moltkestr. 30, 76133 Karlsruhe</p>
+            <p>Karlsruhe University of Applied Sciences is an institution incorporated under public law.</p>
+        </v-col>
+    </v-container>
 </template>
