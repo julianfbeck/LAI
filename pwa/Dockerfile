@@ -7,7 +7,7 @@ FROM node:lts-alpine
 COPY . /app
 
 # make the 'app' folder the current working directory
-WORKDIR /app/pwa
+WORKDIR /app
 
 # install simple http server for serving static content
 RUN npm install -g http-server &&\
@@ -17,5 +17,5 @@ RUN npm install -g http-server &&\
     npm cache clean -f &&\
     npm run build
 
-EXPOSE 80
-CMD [ "http-server", "dist", "-p", "80"]
+EXPOSE 8082
+CMD [ "http-server", "dist", "-p", "8082"]
