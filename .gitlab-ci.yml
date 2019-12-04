@@ -43,7 +43,7 @@ push:docker:tags:
       --cache=true
       --context ${CI_PROJECT_DIR}/pwa
       --dockerfile ${CI_PROJECT_DIR}/pwa/Dockerfile
-      --destination ${CI_REGISTRY_IMAGE}
+      --destination ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
 
 push:docker:latest:
   only:
