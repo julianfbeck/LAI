@@ -125,7 +125,7 @@ const getData = (json, qti) => {
 
     return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title, testID: questionParams.testID}
 }
-//gets called after each user has 
+//gets called after test has been analyzed 
 const aggregateUserData = (data) => {
     // array with users across tests.
     let combinedUsers = []
