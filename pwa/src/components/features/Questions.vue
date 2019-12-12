@@ -20,6 +20,14 @@
                 class="elevation-1 mb-10"
               ></v-data-table>
               </v-flex>
+               <v-btn
+                color="blue-grey"
+                class="white--text"
+                @click="download(test)"
+              >
+                Download
+                <v-icon right dark>cloud_download</v-icon>
+              </v-btn>
           </v-layout>
         </v-card>
       </v-tab-item>
@@ -77,6 +85,24 @@ export default {
         { text: "Answer times", value: "timeString", sortable: false }
       ]
     };
+  },
+  methods:{
+    download(data) {
+            const rows = [
+          ["name1", "city1", "some other info"],
+          ["name2", "city2", "more info"]
+      ];
+      console.log(data)
+      let csvContent = "data:text/csv;charset=utf-8," +rows.map(e => e.join(",")).join("\n");
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "data.csv");
+      document.body.appendChild(link); // Required for FF
+
+      link.click();
+      
+    },
   }
 };
 </script>
