@@ -1,3 +1,4 @@
+import XLSX from "xlsx"
 
 //get users
 const getUsers = (json) => {
@@ -138,9 +139,17 @@ const aggregateUserData = (data) => {
 
     });
 }
+
+const downloadExcel = (name, data) => {
+    let sheet = XLSX.utils.json_to_sheet(data) 
+    var wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, sheet, name)
+    XLSX.writeFile(wb, `${name}.xlsx`)      
+}
 const parse = {
     getData,
-    aggregateUserData
+    aggregateUserData,
+    downloadExcel
 }
 
 export default parse

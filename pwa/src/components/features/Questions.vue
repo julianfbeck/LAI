@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import parse from "@/components/features/parseJson";
 export default {
   name: "Questions",
   components: {},
@@ -87,21 +88,8 @@ export default {
     };
   },
   methods:{
-    download(data) {
-            const rows = [
-          ["name1", "city1", "some other info"],
-          ["name2", "city2", "more info"]
-      ];
-      console.log(data)
-      let csvContent = "data:text/csv;charset=utf-8," +rows.map(e => e.join(",")).join("\n");
-      var encodedUri = encodeURI(csvContent);
-      var link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "data.csv");
-      document.body.appendChild(link); // Required for FF
-
-      link.click();
-      
+    download(test) {
+      parse.downloadExcel(test.overview.title,test.questions)
     },
   }
 };
