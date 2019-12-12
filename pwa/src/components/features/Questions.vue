@@ -17,7 +17,7 @@
                 :sort-desc="[true, true, true, false]"
                 :hide-default-footer="true"
                 multi-sort
-                class="elevation-1 mb-10"
+                class="elevation-1"
               ></v-data-table>
               </v-flex>
                <v-btn
@@ -29,7 +29,17 @@
                 <v-icon right dark>cloud_download</v-icon>
               </v-btn>
           </v-layout>
+                  <v-divider class="ma-4"></v-divider>
+          <v-btn
+                color="blue-grey"
+                class="white--text" block
+                @click="downloadAll()"
+              >
+                Download all
+                <v-icon right dark>cloud_download</v-icon>
+              </v-btn>
         </v-card>
+
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
@@ -90,6 +100,8 @@ export default {
   methods:{
     download(test) {
       parse.downloadExcel(test.overview.title,test.questions)
+    },
+    downloadAll() {
     },
   }
 };
