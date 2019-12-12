@@ -1,11 +1,12 @@
 <template>
   <v-container>
-    <v-layout wrap>
+    <v-layout wrap v-for="test in data" :key="test.overview.title">
       <v-flex mb-4>
-        <div v-if="questions != null">
+        <h2 class="text-center">Questions from {{test.overview.title}}</h2>
+        <div v-if="test != null"> 
           <v-card
             class="mb-1 mx-auto"
-            v-for="q in questions"
+            v-for="q in test.questions"
             v-bind:key="q.question_fi"
           >
             <v-card-text>
@@ -25,7 +26,7 @@
 
         <v-data-table
           :headers="headers"
-          :items="questions"
+          :items="test.questions"
           :sort-by="['question_fi']"
           :sort-desc="[true, true, true, false]"
           :hide-default-footer="true"
@@ -41,7 +42,7 @@
 export default {
   name: "Questions",
   components: {},
-  props: ["questions"],
+  props: ["data"],
   mounted() {},
   data() {
     return {

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h2 v-if="data.length != 0" class="text-center">Results of "{{overview.title}}"</h2>
+    <h2 v-if="data.length != 0 && result" class="text-center">Results"</h2>
     <v-layout text-center wrap>
       <v-container v-if="!result">
         <h1>Analyze a Test</h1>
@@ -29,12 +29,12 @@
       <v-tab ripple>Diagrams</v-tab>
       <v-tab-item>
         <v-card flat>
-          <Overview v-bind:overview="overview" />
+          <Overview v-bind:overview="data" />
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Questions v-bind:questions="questions" />
+          <Questions v-bind:data="data" />
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -111,8 +111,7 @@ export default {
             json = result.results;
           });
 
-          this.data.push({"qti":qti,"json":json})
-          console.log(this.data)
+          this.data.push({"qti":qti,"json":json, "index":i})
           this.files.push({ value: null });
           //this.loadData();
         });
