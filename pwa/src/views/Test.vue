@@ -125,6 +125,7 @@ export default {
         test.overview = parse.getData(test.json,test.qti)
         test.questions = test.overview.questions
       });
+      console.log(this.data[0].overview)
       this.result = true
     }
   }

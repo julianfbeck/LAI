@@ -93,6 +93,7 @@ const getInformation = (qti) => {
     });
     return {title:qti.$.title, titles:questionTitles}
 }
+
 const getData = (json, qti) => {
     //get Testergebnisse sheet
     let users = getUsers(json)
@@ -123,8 +124,23 @@ const getData = (json, qti) => {
 
     return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title}
 }
+//gets called after each user has 
+const aggregateUserData = (data) => {
+    // array with users across tests.
+    let combinedUsers = []
+    data.overview.forEach(test => {
+        test.users.forEach(user=>{
+            if (!combinedUsers.hasOwnProperty(user.login)) {
+                combinedUsers[user.login] = []
+            }
+            combinedUsers[user.login].push({test:test.title, data:user})
+        })
+
+    });
+}
 const parse = {
-    getData
+    getData,
+    aggregateUserData
 }
 
 export default parse
