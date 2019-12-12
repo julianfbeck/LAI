@@ -129,15 +129,16 @@ const getData = (json, qti) => {
 const aggregateUserData = (data) => {
     // array with users across tests.
     let combinedUsers = []
-    data.overview.forEach(test => {
-        test.users.forEach(user=>{
+    data.forEach(test => {
+        test.overview.users.forEach(user=>{
             if (!combinedUsers.hasOwnProperty(user.login)) {
                 combinedUsers[user.login] = []
             }
-            combinedUsers[user.login].push({test:test.title, data:user})
+            combinedUsers[user.login].push({test:test.overview.title, data:user})
         })
 
     });
+    return combinedUsers
 }
 
 const downloadExcel = (name, data) => {

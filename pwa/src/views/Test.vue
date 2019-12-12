@@ -125,6 +125,7 @@ export default {
         test.questions = test.overview.questions
       });
       console.log(this.data[0].overview)
+      console.log(parse.aggregateUserData(this.data))
       this.result = true
     }
   }
