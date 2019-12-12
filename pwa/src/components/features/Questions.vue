@@ -6,7 +6,7 @@
       <v-tab-item>
         <v-card flat>
           <v-layout wrap v-for="test in data" :key="test.overview.title">
-              <v-flex mb-4>
+            <v-flex mb-4>
               <h2 class="text-center">
                 Questions from {{ test.overview.title }}
               </h2>
@@ -19,27 +19,27 @@
                 multi-sort
                 class="elevation-1"
               ></v-data-table>
-              </v-flex>
-               <v-btn
-                color="blue-grey"
-                class="white--text"
-                @click="download(test)"
-              >
-                Download
-                <v-icon right dark>cloud_download</v-icon>
-              </v-btn>
+            </v-flex>
+            <v-btn
+              color="blue-grey"
+              class="white--text"
+              @click="download(test)"
+            >
+              Download
+              <v-icon right dark>cloud_download</v-icon>
+            </v-btn>
           </v-layout>
-                  <v-divider class="ma-4"></v-divider>
+          <v-divider class="ma-4"></v-divider>
           <v-btn
-                color="blue-grey"
-                class="white--text" block
-                @click="downloadAll()"
-              >
-                Download all
-                <v-icon right dark>cloud_download</v-icon>
-              </v-btn>
+            color="blue-grey"
+            class="white--text"
+            block
+            @click="downloadAll()"
+          >
+            Download all
+            <v-icon right dark>cloud_download</v-icon>
+          </v-btn>
         </v-card>
-
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
@@ -97,12 +97,21 @@ export default {
       ]
     };
   },
-  methods:{
+  methods: {
     download(test) {
-      parse.downloadExcel(test.overview.title,test.questions)
+      parse.downloadExcel(test.overview.title, test.questions);
     },
     downloadAll() {
-    },
+      let allQuestions = []
+      this.data.forEach(test => {
+        test.questions.forEach(q => {
+            q["Test ID"] = test.overview.testID
+            q["Test Title"] = test.overview.title
+            allQuestions.push(q)
+        });
+      });
+      parse.downloadExcel("all", allQuestions);
+    }
   }
 };
 </script>

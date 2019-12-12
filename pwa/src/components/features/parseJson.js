@@ -81,7 +81,7 @@ const getQuestions = (json, qti) => {
         }
     }
     
-    return {questionsId: questionsId, passTime:passTime,title:information.title}
+    return {questionsId: questionsId, passTime:passTime,title:information.title, testID:information.testID}
 
 }
 
@@ -123,7 +123,7 @@ const getData = (json, qti) => {
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
-    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title}
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title, testID: questionParams.testID}
 }
 //gets called after each user has 
 const aggregateUserData = (data) => {
