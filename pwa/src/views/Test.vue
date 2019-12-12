@@ -16,6 +16,7 @@
         <v-btn small v-on:click="sample">Load Sample</v-btn>
       </v-container>
     </v-layout>
+    <v-btn block color="green" dark>Let's Analyze</v-btn>
     <v-tabs
             v-if="json.length != 0"
             color="red lighten-2 accent-4"
