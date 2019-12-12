@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <h2 v-if="data.length != 0 && result" class="text-center">Results"</h2>
     <v-layout text-center wrap>
       <v-container v-if="!result">
         <h1>Analyze a Test</h1>
