@@ -2,23 +2,25 @@
   <v-container fluid>
     <h2 v-if="json.length != 0" class="text-center">Results of "{{overview.title}}"</h2>
     <v-layout text-center wrap>
-      <v-container v-if="json.length == 0">
+      <v-container v-if="!result">
         <h1>Analyze a Test</h1>
         <p class="subheading font-weight-regular">
           Upload your exportet .zip file to get started
         </p>
         <v-file-input
                 v-model="file"
-                label="Select xls File..."
+                label="Select .zip File..."
                 accept=".zip"
-                @change="onFileChange"
+                @change="onFileChange(i)"
+                v-for="i in numberOfFiles"
+                v-bind:key="i"
         ></v-file-input>
         <v-btn small v-on:click="sample">Load Sample</v-btn>
+        <v-btn block v-on:click="analyze" color="green" dark>Let's Analyze</v-btn>
       </v-container>
     </v-layout>
-    <v-btn block color="green" dark>Let's Analyze</v-btn>
     <v-tabs
-            v-if="json.length != 0"
+            v-if="result"
             color="red lighten-2 accent-4"
             center-active
     >
@@ -67,7 +69,10 @@ export default {
       qti: null,
       json: [],
       overview: null,
-      questions: null
+      questions: null,
+      numberOfFiles:1,
+      result:false,
+      data:[]
     };
   },
   methods: {
@@ -76,7 +81,8 @@ export default {
       this.qti = sample.qti
       this.loadData();
     },
-    onFileChange() {
+    onFileChange(i) {
+      console.log(i)
       let parser = new xml2js.Parser();
       jszip
         .loadAsync(this.file)
@@ -96,19 +102,26 @@ export default {
           return Promise.all([qti.async("text"), result.async("text")]);
         })
         .then(txt => {
+          let qti = null
+          let json = null
           parser.parseString(txt[0], (err, result) => {
-            this.qti = result.questestinterop.assessment[0]
+            qti = result.questestinterop.assessment[0]
           });
           parser.parseString(txt[1], (err, result) => {
-            this.json = result.results;
+            json = result.results;
           });
+
+          this.data.push({"qti":qti,"json":json})
+          console.log(this.data)
           this.loadData();
         });
     },
     loadData() {
-      console.log(this.qti)
       this.overview = parse.getData(this.json, this.qti);
       this.questions = this.overview.questions;
+    },
+    analyze() {
+      this.result = true
     }
   }
 };
