@@ -1,20 +1,20 @@
 <template>
   <v-container fluid>
-    <h2 v-if="json.length != 0" class="text-center">Results of "{{overview.title}}"</h2>
+    <h2 v-if="data.length != 0" class="text-center">Results of "{{overview.title}}"</h2>
     <v-layout text-center wrap>
       <v-container v-if="!result">
         <h1>Analyze a Test</h1>
         <p class="subheading font-weight-regular">
           Upload your exportet .zip file to get started
         </p>
-        <v-file-input
-                v-model="file"
-                label="Select .zip File..."
-                accept=".zip"
-                @change="onFileChange(i)"
-                v-for="i in numberOfFiles"
-                v-bind:key="i"
-        ></v-file-input>
+        <div v-for="(file, index) in files" v-bind:key="index">
+          <v-file-input
+            v-model="file.value"
+            label="Select .zip File..."
+            accept=".zip"
+            @change="onFileChange(file.value,index)"
+          ></v-file-input>
+        </div>
         <v-btn small v-on:click="sample">Load Sample</v-btn>
         <v-btn block v-on:click="analyze" color="green" dark>Let's Analyze</v-btn>
       </v-container>
@@ -65,15 +65,16 @@ export default {
   },
   data() {
     return {
-      file: null,
+      files: [],
       qti: null,
-      json: [],
       overview: null,
       questions: null,
-      numberOfFiles:1,
       result:false,
       data:[]
     };
+  },
+  created(){
+    this.files.push({ value: null });
   },
   methods: {
     sample() {
@@ -81,11 +82,10 @@ export default {
       this.qti = sample.qti
       this.loadData();
     },
-    onFileChange(i) {
-      console.log(i)
+    onFileChange(file,i) {
       let parser = new xml2js.Parser();
       jszip
-        .loadAsync(this.file)
+        .loadAsync(file)
         .then(content => {
           // if you return a promise in a "then", you will chain the two promises
           let qti = null;
@@ -113,7 +113,8 @@ export default {
 
           this.data.push({"qti":qti,"json":json})
           console.log(this.data)
-          this.loadData();
+          this.files.push({ value: null });
+          //this.loadData();
         });
     },
     loadData() {
@@ -121,6 +122,10 @@ export default {
       this.questions = this.overview.questions;
     },
     analyze() {
+      this.data.forEach(test => {
+        test.overview = parse.getData(test.json,test.qti)
+        test.questions = test.overview.questions
+      });
       this.result = true
     }
   }
