@@ -92,7 +92,7 @@ const getInformation = (qti) => {
         questionTitles[question_ID] = item.$.title
 
     });
-    return {title:qti.$.title, titles:questionTitles}
+    return {title:qti.$.title, titles:questionTitles,testID:qti.$.ident }
 }
 
 const getData = (json, qti) => {
