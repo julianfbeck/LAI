@@ -1,3 +1,4 @@
+import XLSX from "xlsx"
 
 //get users
 const getUsers = (json) => {
@@ -80,7 +81,7 @@ const getQuestions = (json, qti) => {
         }
     }
     
-    return {questionsId: questionsId, passTime:passTime,title:information.title}
+    return {questionsId: questionsId, passTime:passTime,title:information.title, testID:information.testID}
 
 }
 
@@ -91,8 +92,9 @@ const getInformation = (qti) => {
         questionTitles[question_ID] = item.$.title
 
     });
-    return {title:qti.$.title, titles:questionTitles}
+    return {title:qti.$.title, titles:questionTitles,testID:qti.$.ident }
 }
+
 const getData = (json, qti) => {
     //get Testergebnisse sheet
     let users = getUsers(json)
@@ -121,10 +123,34 @@ const getData = (json, qti) => {
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
-    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title}
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title, testID: questionParams.testID}
+}
+//gets called after test has been analyzed 
+const aggregateUserData = (data) => {
+    // array with users across tests.
+    let combinedUsers = []
+    data.forEach(test => {
+        test.overview.users.forEach(user=>{
+            if (!combinedUsers.hasOwnProperty(user.login)) {
+                combinedUsers[user.login] = []
+            }
+            combinedUsers[user.login].push({test:test.overview.title, data:user})
+        })
+
+    });
+    return combinedUsers
+}
+
+const downloadExcel = (name, data) => {
+    let sheet = XLSX.utils.json_to_sheet(data) 
+    var wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, sheet, name)
+    XLSX.writeFile(wb, `${name}.xlsx`)      
 }
 const parse = {
-    getData
+    getData,
+    aggregateUserData,
+    downloadExcel
 }
 
 export default parse
