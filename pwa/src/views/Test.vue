@@ -53,8 +53,8 @@ import Questions from "@/components/features/Questions.vue";
 import xml2js from "xml2js";
 import jszip from "jszip";
 import parse from "@/components/features/parseJson";
-import sample from "@/components/features/sample";
 export default {
+
   name: "home",
   components: {
     Overview,

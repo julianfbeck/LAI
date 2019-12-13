@@ -9,7 +9,7 @@
         <v-toolbar-items>
             <div class="flex align-center layout py-2">
 
-                <!-- TODO: Download and Delete should be only visible if required -->
+                <!-- TODO: Download and Delete should be only visible if required 
                 <v-list-item link>
                     <v-list-item-icon>
                         <v-icon>cloud_download</v-icon>
@@ -23,6 +23,7 @@
                     </v-list-item-icon>
                     <v-list-item-title v-if="!responsive">Delete</v-list-item-title>
                 </v-list-item>
+                -->
 
                 <!-- TODO: Should open a modal which describes what could be done depending on the current page -->
                 <v-tooltip bottom>
