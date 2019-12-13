@@ -18,4 +18,4 @@ RUN npm install -g http-server &&\
     npm run build
 
 EXPOSE 8082
-CMD [ "http-server", "dist", "-p", "8082"]
+CMD [ "http-server", "dist", "-P", "http://localhost:8082?", "-p", "8082"]
