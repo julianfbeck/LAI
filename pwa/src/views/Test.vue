@@ -14,7 +14,6 @@
             @change="onFileChange(file.value,index)"
           ></v-file-input>
         </div>
-        <v-btn small v-on:click="sample">Load Sample</v-btn>
         <v-btn block v-on:click="analyze" color="green" dark>Let's Analyze</v-btn>
       </v-container>
     </v-layout>
@@ -65,22 +64,15 @@ export default {
   data() {
     return {
       files: [],
-      qti: null,
-      overview: null,
-      questions: null,
-      result:false,
-      data:[]
+      data:[],
+      result:false
+
     };
   },
   created(){
     this.files.push({ value: null });
   },
   methods: {
-    sample() {
-      this.json = sample.example.results;
-      this.qti = sample.qti
-      this.loadData();
-    },
     onFileChange(file,i) {
       let parser = new xml2js.Parser();
       jszip
