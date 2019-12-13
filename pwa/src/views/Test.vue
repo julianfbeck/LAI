@@ -28,7 +28,7 @@
       <v-tab ripple>Diagrams</v-tab>
       <v-tab-item>
         <v-card flat>
-          <Overview v-bind:overview="data" />
+          <Overview v-bind:data="data" />
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -124,8 +124,7 @@ export default {
         test.overview = parse.getData(test.json,test.qti)
         test.questions = test.overview.questions
       });
-      console.log(this.data[0].overview)
-      console.log(parse.aggregateUserData(this.data))
+      this.data.aggregatedUsers = parse.aggregateUserData(this.data)
       this.result = true
     }
   }

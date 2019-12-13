@@ -127,7 +127,7 @@ const getData = (json, qti) => {
 }
 //gets called after test has been analyzed 
 const aggregateUserData = (data) => {
-    // array with users across tests.
+    // dictonary with users across tests.
     let combinedUsers = []
     data.forEach(test => {
         test.overview.users.forEach(user=>{
@@ -138,7 +138,13 @@ const aggregateUserData = (data) => {
         })
 
     });
-    return combinedUsers
+    let users = []
+    //convert dictonary back to array to work easier with vue
+    // eslint-disable-next-line no-unused-vars
+    for (const [key, value] of Object.entries(combinedUsers)) {
+        users.push(value)
+    }
+    return users
 }
 
 const downloadExcel = (name, data) => {
