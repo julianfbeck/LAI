@@ -21,3 +21,27 @@ variable "DOCKER_USERNAME" {
 variable "DOCKER_PASSWORD" {
   type = string
 }
+
+variable "REPOSITORY_PATH" {
+  type = string
+}
+
+variable "SSL_POLICY" {
+  type = string
+}
+
+variable "ENABLE_IPV6" {
+  type = string
+}
+
+variable "CERTS_PATH" {
+  type = string
+}
+
+variable "DNS_HOST" {
+  type = string
+}
+
+variable "DNS_KEY" {
+  type = string
+}

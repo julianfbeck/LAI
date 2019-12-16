@@ -22,6 +22,12 @@ module "instance" {
   petname         = random_pet.pet.id
   DOCKER_PASSWORD = var.DOCKER_PASSWORD
   DOCKER_USERNAME = var.DOCKER_USERNAME
+  REPOSITORY_PATH                = var.REPOSITORY_PATH
+  SSL_POLICY                     = var.SSL_POLICY
+  ENABLE_IPV6                    = var.ENABLE_IPV6
+  DNS_HOST = var.DNS_HOST
+  DNS_KEY = var.DNS_KEY
+  CERTS_PATH = var.CERTS_PATH
 }
 
 output "ip" {

@@ -42,6 +42,33 @@ variable "DOCKER_PASSWORD" {
   type = string
 }
 
+variable "CERTS_PATH" {
+  type = string
+}
+
+variable "ENABLE_IPV6" {
+  type    = string
+  default = "true"
+}
+
+variable "SSL_POLICY" {
+  type    = string
+  default = "AWS-TLS-1-2-2017-01"
+}
+
+variable "REPOSITORY_PATH" {
+  type    = string
+  default = "/home/ubuntu"
+}
+
+variable "DNS_HOST" {
+  type    = string
+}
+
+variable "DNS_KEY" {
+  type = string
+}
+
 # remote state
 # see https://www.ibm.com/cloud/blog/store-terraform-states-cloud-object-storage
 
