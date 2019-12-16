@@ -9,7 +9,7 @@ stages:
 build:docker:
   stage: build
   tags:
-  - shared
+  - docker
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -27,7 +27,7 @@ push:docker:tags:
   - tags
   stage: push
   tags:
-  - shared
+  - docker
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -50,7 +50,7 @@ push:docker:latest:
   - master
   stage: push
   tags:
-  - shared
+  - docker
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -94,7 +94,7 @@ before_script:
 validate:
   stage: validate
   tags:
-    - shared
+    - docker
   script:
     - terraform validate
     - terraform fmt -diff=true -write=false
@@ -102,7 +102,7 @@ validate:
 plan:
   stage: prepare
   tags:
-    - shared
+    - docker
   script:
     - terraform plan -out=${PLAN} -var-file="terraform.tfvars"
   artifacts:
@@ -116,7 +116,7 @@ plan:
 #     refs:
 #       - master
 #   tags:
-#     - shared
+#     - docker
 #   script:
 #     - terraform apply -input=false ${PLAN}
 #   dependencies:
@@ -125,7 +125,7 @@ plan:
 manual-apply:
   stage: deploy
   tags:
-    - shared
+    - docker
   script:
     - terraform apply -input=false ${PLAN}
   dependencies:
@@ -135,7 +135,7 @@ manual-apply:
 destroy:
   stage: clean
   tags:
-    - shared
+    - docker
   script:
     - terraform destroy -auto-approve
   dependencies:
@@ -145,7 +145,7 @@ destroy:
 destroy-instance:
   stage: clean
   tags:
-    - shared
+    - docker
   script:
     - terraform destroy -target module.instance.openstack_compute_instance_v2.my-instance -auto-approve
   dependencies:
