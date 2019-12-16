@@ -69,7 +69,7 @@ push:docker:latest:
       --destination ${CI_REGISTRY_IMAGE}
 
 image:
-  name: hashicorp/terraform:0.12.17
+  name: hashicorp/terraform:0.12.18
   entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
