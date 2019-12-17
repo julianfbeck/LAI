@@ -2,13 +2,15 @@
   <v-app id="app" class="lai-color-gray">
     <core-toolbar/>
     <core-navigation/>
+
     <div id="container">
       <v-content>
         <router-view />
-
         <core-footer/>
       </v-content>
     </div>
+
+    <features-help-modal/>
   </v-app>
 </template>
 

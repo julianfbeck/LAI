@@ -28,7 +28,7 @@
                 <!-- TODO: Should open a modal which describes what could be done depending on the current page -->
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                        <v-btn icon v-on="on">
+                        <v-btn icon v-on="on" @click="showHelpModal">
                             <v-icon>mdi-help-circle</v-icon>
                         </v-btn>
                     </template>
@@ -69,6 +69,11 @@
                 } else {
                     this.responsive = false
                 }
+            },
+
+            // Modals
+            showHelpModal() {
+                this.$modal.show('helpModal')
             }
         }
     }
