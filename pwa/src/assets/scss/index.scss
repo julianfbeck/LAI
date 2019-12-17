@@ -19,7 +19,7 @@ main > div > .container {
   background-color: $gray!important;
 }
 
-// Custom assignable classes
+// Assignable classes (self-defined)
 .hska-color-primary, .hska-btn-primary {
   background-color: $hskaPrimaryColor!important;
 }
@@ -30,4 +30,9 @@ main > div > .container {
 
 .lai-color-gray {
   background-color: $gray!important;
+}
+
+.lai-shrink-image {
+  max-width: 100%;
+  height: auto;
 }
