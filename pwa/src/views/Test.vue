@@ -37,7 +37,7 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Charts />
+          <Charts v-bind:data="data" />
         </v-card>
       </v-tab-item>
     </v-tabs>
