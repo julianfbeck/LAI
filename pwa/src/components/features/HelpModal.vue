@@ -12,49 +12,62 @@
            height="auto">
 
         <div class="modal-content">
-            <div style="text-align: center">
+            <div class="text-center">
                 <h1>Usage instructions</h1>
                 <p>The following steps explain the usage of the LAI portal.</p>
             </div>
             <hr>
-            <br>
-            <h2>Section 1: Step name</h2>
+            <h2>Step 1: Open your online test</h2>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dictum purus egestas libero ornare venenatis.
-                Maecenas pharetra tortor eu tortor imperdiet, a faucibus quam finibus. Nulla id lacinia quam.
-                Praesent imperdiet sed magna non finibus. Aenean blandit, mauris vitae lacinia rutrum,
-                nunc mi scelerisque sem, in laoreet sem lectus ut orci. Ut egestas nulla in vehicula feugiat.
-                Vivamus tincidunt nisi vel risus dictum suscipit. Nulla id blandit mi, vulputate aliquam enim.
+                Login to your ILIAS instance and navigate to your online test. Open the test.
             </p>
-            <h2>Section 2: Step name</h2>
+            <img src="/img/help/open-test-a.png" class="lai-shrink-image" alt="">
+
+            <h2>Step 2: Select tab "Export"</h2>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dictum purus egestas libero ornare venenatis.
-                Maecenas pharetra tortor eu tortor imperdiet, a faucibus quam finibus. Nulla id lacinia quam.
-                Praesent imperdiet sed magna non finibus. Aenean blandit, mauris vitae lacinia rutrum,
-                nunc mi scelerisque sem, in laoreet sem lectus ut orci. Ut egestas nulla in vehicula feugiat.
-                Vivamus tincidunt nisi vel risus dictum suscipit. Nulla id blandit mi, vulputate aliquam enim.
+                Inside your online test, open the tab called <i>"Export"</i>.
             </p>
-            <h2>Section 3: Step name</h2>
+            <img src="/img/help/select-export-tab-a.png" class="lai-shrink-image" alt="">
+
+            <h2>Step 3: Create export file</h2>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dictum purus egestas libero ornare venenatis.
-                Maecenas pharetra tortor eu tortor imperdiet, a faucibus quam finibus. Nulla id lacinia quam.
-                Praesent imperdiet sed magna non finibus. Aenean blandit, mauris vitae lacinia rutrum,
-                nunc mi scelerisque sem, in laoreet sem lectus ut orci. Ut egestas nulla in vehicula feugiat.
-                Vivamus tincidunt nisi vel risus dictum suscipit. Nulla id blandit mi, vulputate aliquam enim.
+                Open the dropdown next to Typ and select <i>"Erstelle Exportdatei (inkl. Teilnehmerergebnisse)"</i>.
             </p>
+            <img src="/img/help/create-export-file.png" class="lai-shrink-image" alt="">
+
+            <h2>Step 4: Download export file(s)</h2>
+            <p>
+                Download your generated export files via the <i>"Herunterladen"</i> button.
+            </p>
+            <img src="/img/help/download-export-file-a.png" class="lai-shrink-image" alt="">
+
+            <h2>Step 5: Upload your exported zip file(s)</h2>
+            <p>
+                Your generated zip files must have a file structure like this:
+            </p>
+            <code style="padding: 10px">
+                <i>zip-file-structure:</i><br>
+                [contains a folder with these files:]<br>
+                --- *_qti_[number].xml<br>
+                --- *_results_[number].xml<br>
+                --- *_tst_[number].xml
+            </code>
+
         </div>
     </modal>
 </template>
 
-<style>
+<style lang="scss">
     .modal-content {
         padding: 20px;
-        font-style: 13px;
+
+        h2 {
+            margin-top: 10px;
+        }
     }
     .v--modal-overlay[data-modal="helpModal"] {
         background: rgba(0, 0, 0, 0.5);
     }
-
     .modal-class {
         border-radius: 5px;
         background: #F7F7F7;
