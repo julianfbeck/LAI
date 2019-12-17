@@ -11,6 +11,13 @@ import { sync } from 'vuex-router-sync'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VModal from 'vue-js-modal'
+
+// Register modal component
+Vue.use(VModal, {
+  componentName: "modal",
+  dialog: true
+})
 
 // Init and sync store
 sync(store, router)
