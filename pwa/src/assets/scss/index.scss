@@ -14,6 +14,7 @@ main > div > .container {
 }
 
 // Overwrite theme styles
+.theme--light.v-tabs-items,
 .theme--light.v-card.v-card--flat,
 .theme--light.v-tabs > .v-tabs-bar {
   background-color: $gray!important;
