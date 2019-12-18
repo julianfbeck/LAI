@@ -83,8 +83,6 @@
   import testParser from "@/components/features/testParser";
 
   export default {
-    name: "Questions",
-    components: {},
     props: ["data"],
     mounted() {
     },
@@ -103,6 +101,7 @@
       download(test) {
         testParser.downloadExcel(test.overview.title, test.questions);
       },
+
       downloadAll() {
         let allQuestions = [];
         this.data.forEach(test => {
@@ -117,6 +116,3 @@
     }
   };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
