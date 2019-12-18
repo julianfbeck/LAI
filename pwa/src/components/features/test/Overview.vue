@@ -15,7 +15,7 @@
                                 Total Passes: {{ test.data.passes.length }}
                             </div>
                             <div class="text--primary">
-                                Finished Tests: {{ test.data.results.length }}
+                                Finished Tests: {{ test.data.results.length }} (TODO: Current value is successful passes, not finished ones)
                             </div>
                             <div class="text--primary">
                                 Status: {{ test.data.results[0].mark_official }}
