@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container>
         <v-row wrap>
             <v-col cols="12" md="6" xl="4"
                    v-for="user in data.aggregatedUsers"
