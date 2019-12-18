@@ -1,48 +1,44 @@
 <template>
-    <v-container>
-        <v-layout wrap>
-            <v-flex mb-4>
-                <div>
-                    <v-card
-                            class="mb-1 mx-auto"
-                            v-for="user in data.aggregatedUsers"
-                            v-bind:key="user[0].data.login"
-                    >
-                        <v-card-text>
-                            <p class="headline text--primary">
-                                Name: {{ user[0].data.login }}, Login:
-                                {{ user[0].data.fullname }}
-                            </p>
-                            <div class="ma-2" v-for="test in user" v-bind:key="test.test">
-                                <p class="headline text--primary">Test: {{ test.test }}</p>
-                                <div class="text--primary">
-                                    Total Passes: {{ test.data.passes.length }}
-                                </div>
-                                <div class="text--primary">
-                                    Finished Tests: {{ test.data.results.length }}
-                                </div>
-                                <div class="text--primary">
-                                    Status: {{ test.data.results[0].mark_official }}
-                                </div>
-                                <div class="text--primary">
-                                    Time per pass: {{ test.data.passes.map(x => x.totalTime) }}
-                                </div>
+    <v-container fluid>
+        <v-row wrap>
+            <v-col cols="12" md="6" xl="4"
+                   v-for="user in data.aggregatedUsers"
+                   v-bind:key="user[0].data.login">
+                <v-card class="mb-1 mx-auto">
+                    <v-card-text>
+                        <p class="headline text--primary">
+                            Name: {{ user[0].data.login }}, Login: {{ user[0].data.fullname }}
+                        </p>
+                        <div class="ma-2" v-for="test in user" v-bind:key="test.test">
+                            <p class="headline text--primary">Test: {{ test.test }}</p>
+                            <div class="text--primary">
+                                Total Passes: {{ test.data.passes.length }}
                             </div>
-                        </v-card-text>
-                    </v-card>
-                    <v-divider class="ma-3"></v-divider>
-                    <v-btn
-                            color="blue-grey"
-                            class="white--text"
-                            block
-                            @click="downloadAll()"
-                    >
-                        Download all
-                        <v-icon right dark>cloud_download</v-icon>
-                    </v-btn>
-                </div>
-            </v-flex>
-        </v-layout>
+                            <div class="text--primary">
+                                Finished Tests: {{ test.data.results.length }}
+                            </div>
+                            <div class="text--primary">
+                                Status: {{ test.data.results[0].mark_official }}
+                            </div>
+                            <div class="text--primary">
+                                Time per pass: {{ test.data.passes.map(x => x.totalTime) }}
+                            </div>
+                        </div>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+
+        <v-row no-gutters>
+            <v-divider class="ma-3"/>
+            <v-btn color="blue-grey"
+                   class="white--text"
+                   block
+                   @click="downloadAll()">
+                Download all
+                <v-icon right dark>cloud_download</v-icon>
+            </v-btn>
+        </v-row>
     </v-container>
 </template>
 
