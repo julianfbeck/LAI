@@ -43,16 +43,17 @@
 
             <!-- DETAIL tab -->
             <v-tab-item>
-                <v-card flat>
-                    <v-layout wrap v-for="test in data" :key="test.overview.title">
-                        <v-flex mb-4>
-                            <h2 class="text-center">
-                                Questions from {{ test.overview.title }}
-                            </h2>
-                            <div v-if="test != null">
-                                <v-card class="mb-1 mx-auto"
-                                        v-for="q in test.questions"
-                                        v-bind:key="q.question_fi">
+                <v-row v-for="test in data" :key="test.overview.title">
+                    <v-col cols="12">
+                        <h2 class="text-center">
+                            Questions from {{ test.overview.title }}
+                        </h2>
+                        <v-row wrap v-if="test != null">
+                            <v-col cols="12" md="6" xl="4"
+                                   v-for="q in test.questions"
+                                   v-bind:key="q.question_fi">
+
+                                <v-card class="mb-1 mx-auto">
                                     <v-card-text>
                                         <p class="headline text--primary">
                                             Question: {{ q.title }}
@@ -69,10 +70,10 @@
                                         </div>
                                     </v-card-text>
                                 </v-card>
-                            </div>
-                        </v-flex>
-                    </v-layout>
-                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
             </v-tab-item>
         </v-tabs>
     </v-container>
