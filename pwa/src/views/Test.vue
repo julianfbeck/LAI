@@ -27,17 +27,17 @@
       <v-tab ripple>Diagrams</v-tab>
       <v-tab-item>
         <v-card flat>
-          <Overview v-bind:data="data" />
+          <features-test-overview v-bind:data="data" />
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Questions v-bind:data="data" />
+          <features-test-questions v-bind:data="data" />
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
-          <Charts v-bind:data="data" />
+          <features-test-charts v-bind:data="data" />
         </v-card>
       </v-tab-item>
     </v-tabs>
@@ -46,21 +46,12 @@
 
 <script>
 // @ is an alias to /src
-import Overview from "@/components/features/Overview.vue";
-import Charts from "@/components/features/Charts.vue";
-import Questions from "@/components/features/Questions.vue";
-
 import xml2js from "xml2js";
 import jszip from "jszip";
 import parse from "@/components/features/parseJson";
 export default {
 
   name: "home",
-  components: {
-    Overview,
-    Questions,
-    Charts
-  },
   data() {
     return {
       files: [],

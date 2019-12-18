@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { randomScalingFactor } from "../../utils/helper";
+import { randomScalingFactor } from "@/utils/helper";
 
 export default {
   props: ["data"],
