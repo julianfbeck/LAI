@@ -3,44 +3,45 @@
         <v-tabs color="red lighten-2 accent-4" center-active>
             <v-tab ripple>Tables</v-tab>
             <v-tab ripple>Detail</v-tab>
+
+            <!-- TABLES tab -->
             <v-tab-item>
-                <v-card flat>
-                    <v-layout wrap v-for="test in data" :key="test.overview.title">
-                        <v-flex mb-4>
-                            <h2 class="text-center">
-                                Questions from {{ test.overview.title }}
-                            </h2>
-                            <v-data-table
-                                    :headers="headers"
-                                    :items="test.questions"
-                                    :sort-by="['question_fi']"
-                                    :sort-desc="[true, true, true, false]"
-                                    :hide-default-footer="true"
-                                    multi-sort
-                                    class="elevation-1"
-                            ></v-data-table>
-                        </v-flex>
-                        <v-btn
-                                color="blue-grey"
-                                class="white--text"
-                                @click="download(test)"
-                        >
+                <v-row v-for="test in data" :key="test.overview.title">
+                    <v-col mb-4 cols="12">
+                        <h2 class="text-center">
+                            Questions from {{ test.overview.title }}
+                        </h2>
+                        <v-data-table
+                                :headers="headers"
+                                :items="test.questions"
+                                :sort-by="['question_fi']"
+                                :sort-desc="[true, true, true, false]"
+                                :hide-default-footer="true"
+                                multi-sort
+                                class="elevation-1"/>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-btn block
+                               @click="download(test)">
                             Download
                             <v-icon right dark>cloud_download</v-icon>
                         </v-btn>
-                    </v-layout>
-                    <v-divider class="ma-4"></v-divider>
-                    <v-btn
-                            color="blue-grey"
-                            class="white--text"
-                            block
-                            @click="downloadAll()"
-                    >
+                    </v-col>
+                </v-row>
+
+                <v-row no-gutters>
+                    <v-divider class="ma-4"/>
+                    <v-btn color="blue-grey"
+                           class="white--text"
+                           block
+                           @click="downloadAll()">
                         Download all
                         <v-icon right dark>cloud_download</v-icon>
                     </v-btn>
-                </v-card>
+                </v-row>
             </v-tab-item>
+
+            <!-- DETAIL tab -->
             <v-tab-item>
                 <v-card flat>
                     <v-layout wrap v-for="test in data" :key="test.overview.title">
@@ -49,11 +50,9 @@
                                 Questions from {{ test.overview.title }}
                             </h2>
                             <div v-if="test != null">
-                                <v-card
-                                        class="mb-1 mx-auto"
+                                <v-card class="mb-1 mx-auto"
                                         v-for="q in test.questions"
-                                        v-bind:key="q.question_fi"
-                                >
+                                        v-bind:key="q.question_fi">
                                     <v-card-text>
                                         <p class="headline text--primary">
                                             Question: {{ q.title }}
