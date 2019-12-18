@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import parse from "@/components/features/parseJson";
+import testParser from "@/components/features/testParser";
 export default {
   name: "Questions",
   components: {},
@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     download(test) {
-      parse.downloadExcel(test.overview.title, test.questions);
+      testParser.downloadExcel(test.overview.title, test.questions);
     },
     downloadAll() {
       let allQuestions = []
@@ -110,7 +110,7 @@ export default {
             allQuestions.push(q)
         });
       });
-      parse.downloadExcel("all", allQuestions);
+      testParser.downloadExcel("all", allQuestions);
     }
   }
 };

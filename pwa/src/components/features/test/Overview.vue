@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import parse from "@/components/features/parseJson";
+import testParser from "@/components/features/testParser";
 export default {
   name: "Overview",
   components: {},
@@ -79,7 +79,7 @@ export default {
             });
           });
       });
-      parse.downloadExcel("all", rows);
+      testParser.downloadExcel("all", rows);
     }
   }
 };

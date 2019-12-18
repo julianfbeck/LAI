@@ -50,17 +50,15 @@
   // @ is an alias to /src
   import xml2js from "xml2js";
   import jszip from "jszip"
-  import parse from "@/components/features/parseJson";
+  import testParser from "@/components/features/testParser";
 
   export default {
-
     name: "home",
     data() {
       return {
         files: [],
         data: [],
         result: false
-
       };
     },
     created() {
@@ -68,7 +66,7 @@
     },
     methods: {
       onFileChange(file, i) {
-        let parser = new xml2js.Parser();
+        let xmlParser = new xml2js.Parser();
         jszip
           .loadAsync(file)
           .then(content => {
@@ -89,10 +87,10 @@
           .then(txt => {
             let qti = null;
             let json = null;
-            parser.parseString(txt[0], (err, result) => {
+            xmlParser.parseString(txt[0], (err, result) => {
               qti = result.questestinterop.assessment[0];
             });
-            parser.parseString(txt[1], (err, result) => {
+            xmlParser.parseString(txt[1], (err, result) => {
               json = result.results;
             });
 
@@ -101,16 +99,19 @@
             //this.loadData();
           });
       },
+
       loadData() {
-        this.overview = parse.getData(this.json, this.qti);
+        this.overview = testParser.getData(this.json, this.qti);
         this.questions = this.overview.questions;
       },
+
       analyze() {
         this.data.forEach(test => {
-          test.overview = parse.getData(test.json, test.qti);
+          test.overview = testParser.getData(test.json, test.qti);
           test.questions = test.overview.questions;
         });
-        this.data.aggregatedUsers = parse.aggregateUserData(this.data);
+
+        this.data.aggregatedUsers = testParser.aggregateUserData(this.data);
         this.result = true;
       }
     }
