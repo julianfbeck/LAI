@@ -46,8 +46,6 @@
   import testParser from "@/components/features/testParser";
 
   export default {
-    name: "Overview",
-    components: {},
     props: ["data"],
     mounted() {
     },
