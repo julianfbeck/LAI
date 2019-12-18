@@ -6,22 +6,23 @@
                 <p class="subheading font-weight-regular">
                     Upload your exportet .zip file to get started
                 </p>
+
                 <div v-for="(file, index) in files" v-bind:key="index">
                     <v-file-input
                             v-model="file.value"
                             label="Select .zip File..."
                             accept=".zip"
-                            @change="onFileChange(file.value,index)"
-                    ></v-file-input>
+                            @change="onFileChange(file.value,index)"/>
                 </div>
+
                 <v-btn block v-on:click="analyze" color="green" dark>Let's Analyze</v-btn>
             </v-container>
         </v-layout>
-        <v-tabs
-                v-if="result"
+
+        <v-tabs v-if="result"
                 color="red lighten-2 accent-4"
-                center-active
-        >
+                center-active>
+
             <v-tab ripple>Overview</v-tab>
             <v-tab ripple>Questions</v-tab>
             <v-tab ripple>Diagrams</v-tab>
@@ -41,6 +42,7 @@
                 </v-card>
             </v-tab-item>
         </v-tabs>
+
     </v-container>
 </template>
 
