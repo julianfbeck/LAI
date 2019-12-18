@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row wrap>
-            <v-col cols="12" md="12" xl="12"
+            <v-col cols="12" md="6" xl="4"
                    v-for="user in data.aggregatedUsers"
                    v-bind:key="user[0].data.login">
                 <v-card>
