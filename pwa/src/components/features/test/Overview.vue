@@ -7,7 +7,7 @@
                 <v-card>
                     <v-card-text>
                         <p class="headline text--primary">
-                            Name: {{ user[0].data.login }}, Login: {{ user[0].data.fullname }}
+                            {{ user[0].data.fullname }} ({{ user[0].data.login }})
                         </p>
                         <div class="ma-2" v-for="test in user" v-bind:key="test.test">
                             <p class="headline text--primary">Test: {{ test.test }}</p>
