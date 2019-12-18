@@ -1,10 +1,10 @@
 <template>
     <v-container>
         <v-row wrap>
-            <v-col cols="12" md="6" xl="4"
+            <v-col cols="12" md="12" xl="12"
                    v-for="user in data.aggregatedUsers"
                    v-bind:key="user[0].data.login">
-                <v-card class="mb-1 mx-auto">
+                <v-card>
                     <v-card-text>
                         <p class="headline text--primary">
                             Name: {{ user[0].data.login }}, Login: {{ user[0].data.fullname }}
@@ -80,3 +80,10 @@
     }
   };
 </script>
+
+<style scoped>
+    .v-card {
+        height: 100%;
+    }
+</style>
+

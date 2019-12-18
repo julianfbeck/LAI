@@ -53,7 +53,7 @@
                                    v-for="q in test.questions"
                                    v-bind:key="q.question_fi">
 
-                                <v-card class="mb-1 mx-auto">
+                                <v-card>
                                     <v-card-text>
                                         <p class="headline text--primary">
                                             Question: {{ q.title }}
@@ -116,3 +116,9 @@
     }
   };
 </script>
+
+<style scoped>
+    .v-card {
+        height: 100%;
+    }
+</style>
