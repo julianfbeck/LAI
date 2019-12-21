@@ -1,9 +1,9 @@
 dist: xenial
-env:
-- TF_INPUT=false
-- PLAN=plan.tfplan
 
 jobs:
+  env:
+  - TF_INPUT=false
+  - PLAN=plan.tfplan
   include:
     - stage: build
       name: "build docker image"
