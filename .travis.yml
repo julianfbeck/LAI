@@ -1,0 +1,103 @@
+dist: xenial
+env:
+- TF_INPUT=false
+- PLAN=plan.tfplan
+
+jobs:
+  include:
+    - stage: build
+      name: "build docker image"
+      if: (tag IS blank)
+      sudo: required
+      services:
+        - docker
+      script:
+      - docker build -t "${TRAVIS_REPO_SLUG}":latest -f ${TRAVIS_BUILD_DIR}/pwa/Dockerfile ${TRAVIS_BUILD_DIR}/pwa
+
+    - stage: push
+      name: "push latest docker image"
+      if: (branch = master AND NOT type = pull_request)
+      sudo: required
+      services:
+        - docker
+      script:
+      - docker build -t "${TRAVIS_REPO_SLUG}":latest -f ${TRAVIS_BUILD_DIR}/pwa/Dockerfile ${TRAVIS_BUILD_DIR}/pwa
+      - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+      - docker push "${TRAVIS_REPO_SLUG}":latest
+
+    - stage: push
+      name: "push tagged docker images"
+      if: (tag IS present)
+      sudo: required
+      services:
+        - docker
+      script:
+      - docker build -t "${TRAVIS_REPO_SLUG}":"${TRAVIS_TAG}" -f ${TRAVIS_BUILD_DIR}/pwa/Dockerfile ${TRAVIS_BUILD_DIR}/pwa
+      - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+      - docker push "${TRAVIS_REPO_SLUG}":"${TRAVIS_TAG}"
+
+    - stage: validate
+      name: "terraform validate"
+      install:
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+      - unzip /tmp/terraform.zip -d /tmp
+      - mkdir ~/bin
+      - mv /tmp/terraform ~/bin
+      - export PATH="~/bin:$PATH"
+      before_script:
+      - cd ./terraform
+      script:
+      - terraform validate
+      - terraform fmt -diff=true -write=false
+
+    - stage: prepare
+      name: "terraform prepare"
+      install:
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+      - unzip /tmp/terraform.zip -d /tmp
+      - mkdir ~/bin
+      - mv /tmp/terraform ~/bin
+      - export PATH="~/bin:$PATH"
+      before_script:
+      - cd ./terraform
+      script:
+      - terraform plan -out=${PLAN} -var-file="terraform.tfvars"
+
+    - stage: deploy
+      name: "manual terraform apply"
+      install:
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+      - unzip /tmp/terraform.zip -d /tmp
+      - mkdir ~/bin
+      - mv /tmp/terraform ~/bin
+      - export PATH="~/bin:$PATH"
+      before_script:
+      - cd ./terraform
+      script:
+      - terraform apply -input=false ${PLAN}
+
+    - stage: clean
+      name: "manual terraform destroy"
+      install:
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+      - unzip /tmp/terraform.zip -d /tmp
+      - mkdir ~/bin
+      - mv /tmp/terraform ~/bin
+      - export PATH="~/bin:$PATH"
+      before_script:
+      - cd ./terraform
+      script:
+      - terraform destroy -auto-approve
+
+    - stage: clean
+      name: "manual terraform destroy instance"
+      install:
+      - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+      - unzip /tmp/terraform.zip -d /tmp
+      - mkdir ~/bin
+      - mv /tmp/terraform ~/bin
+      - export PATH="~/bin:$PATH"
+      before_script:
+      - cd ./terraform
+      script:
+      - terraform destroy -target module.instance.openstack_compute_instance_v2.my-instance -auto-approve
