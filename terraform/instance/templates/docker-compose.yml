@@ -1,59 +1,56 @@
 version: '3'
 
-# setup for SSL is commented out
-# if enabled remove the ports list from the 'app' service
-
 services:
   app:
     image: hskatgl/lai
     restart: always
-    ports:
-      - 80:8082
     networks:
       - default
-#       - proxy-tier
-#     environment:
-#       - VIRTUAL_HOST=${DNS_HOST}
-#       - VIRTUAL_PORT=8082
-#       - SSL_POLICY=${SSL_POLICY}
+      - proxy-tier
+    environment:
+      - VIRTUAL_HOST=${DNS_HOST}
+      - LETSENCRYPT_HOST=${DNS_HOST}
+      - VIRTUAL_PORT=8082
+      - SSL_POLICY=${SSL_POLICY}
 
-#   proxy:
-#     image: jwilder/nginx-proxy:alpine
-#     restart: always
-#     ports:
-#       - 80:80
-#       - 443:443
-#     labels:
-#       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
-#     volumes:
-#       - certs:/etc/nginx/certs:ro
-#       - vhost.d:/etc/nginx/vhost.d
-#       - html:/usr/share/nginx/html
-#       - /var/run/docker.sock:/tmp/docker.sock:ro
-#     networks:
-#       - proxy-tier
+  proxy:
+    image: jwilder/nginx-proxy:alpine
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    volumes:
+      # enable the CERTS_PATH mount if a local cert is used as template
+      # - ${CERTS_PATH}:/etc/nginx/certs:ro
+      # disable the 'certs' volume if a CERTS_PATH mount is used
+      - certs:/etc/nginx/certs:ro
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - proxy-tier
 
-#   letsencrypt-companion:
-#     image: jrcs/letsencrypt-nginx-proxy-companion
-#     restart: always
-#     volumes:
-#       - certs:/etc/nginx/certs
-#       - vhost.d:/etc/nginx/vhost.d
-#       - html:/usr/share/nginx/html
-#       - /var/run/docker.sock:/var/run/docker.sock:ro
-#     environment:
-#       - ENABLE_IPV6=${ENABLE_IPV6}
-#     networks:
-#       - proxy-tier
-#     depends_on:
-#       - proxy
+  letsencrypt-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - ENABLE_IPV6=${ENABLE_IPV6}
+    networks:
+      - proxy-tier
+    depends_on:
+      - proxy
 
-# volumes:
-#   db:
-#   nextcloud:
-#   certs:
-#   vhost.d:
-#   html:
+volumes:
+  certs:
+  vhost.d:
+  html:
 
-# networks:
-#   proxy-tier:
+networks:
+  proxy-tier:

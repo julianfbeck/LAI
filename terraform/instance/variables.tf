@@ -42,6 +42,10 @@ variable "DNS_HOST" {
   type = string
 }
 
-variable "DNS_KEY" {
+variable "DNS_USERNAME" {
+  type = string
+}
+
+variable "DNS_PASSWORD" {
   type = string
 }

@@ -23,8 +23,9 @@ data "template_file" "run_sh" {
   template = "${file("${path.module}/templates/run.sh")}"
 
   vars = {
-    DNS_KEY = "${var.DNS_KEY}"
     DNS_HOST = "${var.DNS_HOST}"
+    DNS_USERNAME = "${var.DNS_USERNAME}"
+    DNS_PASSWORD = "${var.DNS_PASSWORD}"
     REPOSITORY_PATH = "${var.REPOSITORY_PATH}"
     DOCKER_PASSWORD = "${var.DOCKER_PASSWORD}"
     DOCKER_USERNAME = "${var.DOCKER_USERNAME}"

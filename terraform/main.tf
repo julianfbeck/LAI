@@ -26,7 +26,8 @@ module "instance" {
   SSL_POLICY                     = var.SSL_POLICY
   ENABLE_IPV6                    = var.ENABLE_IPV6
   DNS_HOST = var.DNS_HOST
-  DNS_KEY = var.DNS_KEY
+  DNS_USERNAME = var.DNS_USERNAME
+  DNS_PASSWORD = var.DNS_PASSWORD
   CERTS_PATH = var.CERTS_PATH
 }
 
