@@ -71,7 +71,7 @@ issued. It is read by the letsencrypt companion container which will check wheth
 issue a new one if necessary which is saved in the `certs` volume.
 The reverse proxy supports IPv6 which is enabled using the `ENABLE_IPV6` variable.
 
-## Remaining tasks
+## To be done
 ### Save letsencrypt certificate
 The letsencrypt certificate is issued after each recreation of the instance which can be a problem because the certificate
 is currently not saved causing a recreation every time. Let's Encrypt Certificates are currently limited to 10 new
