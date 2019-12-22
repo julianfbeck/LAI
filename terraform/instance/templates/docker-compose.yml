@@ -21,6 +21,8 @@ services:
       - 443:443
     labels:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    environment:
+      - ENABLE_IPV6=${ENABLE_IPV6}
     volumes:
       # enable the CERTS_PATH mount if a local cert is used as template
       # - ${CERTS_PATH}:/etc/nginx/certs:ro
@@ -40,8 +42,6 @@ services:
       - vhost.d:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - ENABLE_IPV6=${ENABLE_IPV6}
     networks:
       - proxy-tier
     depends_on:
