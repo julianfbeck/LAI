@@ -55,12 +55,15 @@ terraform output ip
 
 ## Configuration
 This project sets up a docker container containing an Learn Analytics in Ilias instance along with a reverse proxy
-and a letsencrypt companion providing a TLS certificate for the domain `hska-tgl.dynu.net`.
+and a letsencrypt companion providing a TLS certificate for the domain `hska-tgl.dynu.net`. The DNS update is done
+after every launch of the compute instance using Dynamic DNS provided by `dynu.net`.
 All containers are provisioned using docker compose.
 The docker compose configuration is located in `terraform/instance/templates/docker-compose.yml`.
 It configures an nginx reverse proxy for the domain to automatically redirect port 80 to 443 which enforces encrypted
 communication. By passing the docker socket to the reverse proxy it is able to inspect other running containers such
-as the container using the desired `hskatgl/lai` image. The `VIRTUAL_HOST` environment variable defines which domains
+as the container using the desired `hskatgl/lai` image. As this image is currently set to private on Docker Hub an
+authentication is required which is done in `terraform/instance/templates/run.sh` using `docker login`.
+The `VIRTUAL_HOST` environment variable defines which domains
 should terminate onto this container, by default it will select port 80, however using the `VIRTUAL_PORT` variable
 this can be configured as desired. The `SSL_POLICY` is configured to TLSv1.2 which is state of the art for encrypted
 communication. The `LETSENCRYPT_HOST` environment variable defines the domain for which a TLS certificate should be
@@ -79,6 +82,12 @@ Another option would be to save the certificate locally and pass it as a templat
 certificates expire after 90 days as they should be renewed automatically. Another variable that can be passed to the
 letsencrypt companion container is the `LETSENCRYPT_EMAIL`. The email address set within this variable will be contacted
 by Let's Encrypt before the certificate is about the expire if it is not renewed in time.
+
+### Change domain name
+To replace the domain name the `DNS_HOST` variable in the `terraform.tfvars` file has to be adapted.
+Additionally the dynamic DNS update routine has to be properly changed,
+currently it uses a `DNS_USERNAME` and a `DNS_PASSWORD` to authenticate with curl over a webhook.
+The curl commands are specified in `terraform/instance/templates/run.sh`.
 
 ## References
 
