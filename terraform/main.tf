@@ -18,10 +18,17 @@ module "vpc" {
 module "instance" {
   instance_name   = "vm"
   source          = "./instance"
-  sec_id          = module.vpc.sec_id
+  sec_name                       = module.vpc.sec_name
   petname         = random_pet.pet.id
   DOCKER_PASSWORD = var.DOCKER_PASSWORD
   DOCKER_USERNAME = var.DOCKER_USERNAME
+  REPOSITORY_PATH                = var.REPOSITORY_PATH
+  SSL_POLICY                     = var.SSL_POLICY
+  ENABLE_IPV6                    = var.ENABLE_IPV6
+  DNS_HOST = var.DNS_HOST
+  DNS_USERNAME = var.DNS_USERNAME
+  DNS_PASSWORD = var.DNS_PASSWORD
+  CERTS_PATH = var.CERTS_PATH
 }
 
 output "ip" {
