@@ -2,7 +2,7 @@ variable "flavor" {
   default = "m1.large"
 }
 
-variable "sec_id" {
+variable "sec_name" {
   type = string
 }
 

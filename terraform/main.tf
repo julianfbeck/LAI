@@ -18,7 +18,7 @@ module "vpc" {
 module "instance" {
   instance_name   = "vm"
   source          = "./instance"
-  sec_id          = module.vpc.sec_id
+  sec_name                       = module.vpc.sec_name
   petname         = random_pet.pet.id
   DOCKER_PASSWORD = var.DOCKER_PASSWORD
   DOCKER_USERNAME = var.DOCKER_USERNAME
