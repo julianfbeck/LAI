@@ -56,21 +56,30 @@
       downloadAll() {
         let rows = [];
         //convert data to a good looking excel table
+        console.log(this.data[0].overview.times)
         this.data.aggregatedUsers.forEach(user => {
           user.forEach(test => {
+            console.log(user[0].data.results[0])
             test.data.passes.forEach(pass => {
               rows.push({
                 login: user[0].data.login,
                 id: user[0].data.active_id,
                 fullName: user[0].data.fullname,
                 testLabel: test.test,
+                Verfügbarkeit_Start: new Date(this.data[0].overview.times.activation_start_time * 1000).toISOString(),
+                Verfügbarkeit_Ende: new Date(this.data[0].overview.times.activation_end_time * 1000).toISOString(),
+                Durchfuerung_Zugang_Start:this.data[0].overview.times.starting_time,
+                Durchfuerung_Zugang_Ende:this.data[0].overview.times.ending_time,
+                Öffnen_des_Tests: null,
+                Erste_Bearbeitung:null,
+
                 pass: pass.pass,
                 Time: pass.totalTime,
                 TimeStamp: new Date(pass.tstamp * 1000).toISOString(),
                 answeredQuestions: pass.answeredquestions,
                 questionCount: pass.questioncount,
                 points: pass.points,
-                maxPoints: pass.maxpoints,
+                maxPoints: pass.maxpoints
               });
             });
           });

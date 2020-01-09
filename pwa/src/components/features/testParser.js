@@ -21,6 +21,7 @@ const getUsers = (json) => {
     json.tst_result_cache[0].row.forEach(result => {
         usersId[result.$.active_fi]["results"].push(result.$)
     });
+    
     return usersId
 }
 
@@ -81,10 +82,11 @@ const getQuestions = (json, qti) => {
         }
     }
     
-    return {questionsId: questionsId, passTime:passTime,title:information.title, testID:information.testID}
+    return {questionsId: questionsId, passTime:passTime,title:information.title, testID:information.testID, times: information.times}
 
 }
 
+//get test tile, questions and times
 const getInformation = (qti) => {
     let questionTitles = []
     qti.section[0].item.forEach(item => {
@@ -92,7 +94,37 @@ const getInformation = (qti) => {
         questionTitles[question_ID] = item.$.title
 
     });
-    return {title:qti.$.title, titles:questionTitles,testID:qti.$.ident }
+    //get Times
+
+    let times = []
+    let startTime = undefined
+    let endingTime = undefined
+    let activationStartTime = undefined
+    let activationEndTime = undefined
+
+    qti.qtimetadata[0].qtimetadatafield.forEach(entry=>{
+        let label = entry.fieldlabel[0]
+        let value = entry.fieldentry[0]
+
+        if (label == "starting_time"){
+            startTime = value
+        }
+        if (label == "ending_time"){
+            endingTime = value
+        }
+        if (label == "activation_start_time"){
+            activationStartTime = value
+        }
+        if (label == "activation_end_time"){
+            activationEndTime = value
+        }
+    })
+    times["starting_time"] = startTime || "not specified"
+    times["ending_time"] = endingTime || "not specified"
+    times["activation_start_time"] =  activationStartTime || "not specified"
+    times["activation_end_time"] = activationEndTime || "not specified"
+
+    return {title:qti.$.title, titles:questionTitles,testID:qti.$.ident, times:times }
 }
 
 const getData = (json, qti) => {
@@ -123,7 +155,7 @@ const getData = (json, qti) => {
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
-    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title, testID: questionParams.testID}
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title, times:questionParams.times, testID: questionParams.testID}
 }
 //gets called after test has been analyzed 
 const aggregateUserData = (data) => {
