@@ -71,7 +71,7 @@
                 Durchfuerung_Zugang_Start:this.data[0].overview.times.starting_time,
                 Durchfuerung_Zugang_Ende:this.data[0].overview.times.ending_time,
                 Öffnen_des_Tests: null,
-                Erste_Bearbeitung:null,
+                Erste_Bearbeitung:new Date(user[0].data.results[0].tstamp * 1000).toISOString(),
 
                 pass: pass.pass,
                 Time: pass.totalTime,
