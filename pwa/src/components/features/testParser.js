@@ -21,7 +21,7 @@ const getUsers = (json) => {
     json.tst_result_cache[0].row.forEach(result => {
         usersId[result.$.active_fi]["results"].push(result.$)
     });
-    
+    console.log(usersId)
     return usersId
 }
 
