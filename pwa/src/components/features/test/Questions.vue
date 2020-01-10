@@ -106,9 +106,24 @@
         let allQuestions = [];
         this.data.forEach(test => {
           test.questions.forEach(q => {
-            q["Test ID"] = test.overview.testID;
-            q["Test Title"] = test.overview.title;
-            allQuestions.push(q);
+            allQuestions.push(
+            {
+                test_id:test.overview.testID,
+                test_label:test.overview.title,
+                question_id:q.question_fi,
+                question_label:q.title,
+                total_times_shown:q.times.length,
+                user_login:"",
+                user_fullname:"",
+                user_id:"",
+                pass:"",
+                points:"",
+                max_points:"",
+                beginn:"",
+                ende:"",
+                delta:""
+            }
+            );
           });
         });
         testParser.downloadExcel("all", allQuestions);
