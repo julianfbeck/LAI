@@ -101,15 +101,15 @@
             {
                 test_id:test.overview.testID,
                 test_label:test.overview.title,
-                Verfügbarkeit_Start: test.overview.times.activation_start_time== 0 ? "not specified": new Date(test.overview.times.activation_start_time * 1000).toISOString(),
-                Verfügbarkeit_Ende: test.overview.times.activation_end_time== 0 ? "not specified": new Date(test.overview.times.activation_end_time * 1000).toISOString(),
-                Durchfuerung_Zugang_Start:test.overview.times.starting_time,
-                Durchfuerung_Zugang_Ende:test.overview.times.ending_time,
+                verfügbarkeit_start: test.overview.times.activation_start_time== 0 ? "not specified": new Date(test.overview.times.activation_start_time * 1000).toISOString(),
+                verfügbarkeit_ende: test.overview.times.activation_end_time== 0 ? "not specified": new Date(test.overview.times.activation_end_time * 1000).toISOString(),
+                durchfuerung_zugang_start:test.overview.times.starting_time,
+                durchfuerung_zugang_ende:test.overview.times.ending_time,
                 question_id:q.question_fi,
                 question_label:q.title,
                 total_times_shown:q.times.length,
                 average_time: q.average,
-                array_of_times:q.times
+                //array_of_times:q.times
             }
             );
           });
@@ -121,10 +121,10 @@
                 
             {
                 test_label:test.overview.title,
-                Verfügbarkeit_Start: test.overview.times.activation_start_time== 0 ? "not specified": new Date(test.overview.times.activation_start_time * 1000).toISOString(),
-                Verfügbarkeit_Ende: test.overview.times.activation_end_time== 0 ? "not specified": new Date(test.overview.times.activation_end_time * 1000).toISOString(),
-                Durchfuerung_Zugang_Start:test.overview.times.starting_time,
-                Durchfuerung_Zugang_Ende:test.overview.times.ending_time,
+                verfügbarkeit_start: test.overview.times.activation_start_time== 0 ? "not specified": new Date(test.overview.times.activation_start_time * 1000).toISOString(),
+                verfügbarkeit_ende: test.overview.times.activation_end_time== 0 ? "not specified": new Date(test.overview.times.activation_end_time * 1000).toISOString(),
+                durchfuerung_zugang_start:test.overview.times.starting_time,
+                durchfuerung_zugang_ende:test.overview.times.ending_time,
                 user_id: q.user.active_id,
                 user_login: q.user.login,
                 user_fullname: q.user.fullname,

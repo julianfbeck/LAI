@@ -57,6 +57,7 @@
     },
     methods: {
       downloadAll() {
+        console.log(this.data)
         let wb = XLSX.utils.book_new()
 
         let rows = [];
@@ -67,25 +68,25 @@
               rows.push({
                 login: user[0].data.login,
                 id: user[0].data.active_id,
-                fullName: user[0].data.fullname,
-                testLabel: test.test,
-                Verfügbarkeit_Start: test.times.activation_start_time == 0 ? "not specified": new Date(test.times.activation_start_time * 1000).toISOString(),
-                Verfügbarkeit_Ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
-                Durchfuerung_Zugang_Start:test.times.starting_time,
-                Durchfuerung_Zugang_Ende:test.times.ending_time,
-                Erste_Bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
-                Letzte_Bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
+                full_name: user[0].data.fullname,
+                test_label: test.test,
+                verfügbarkeit_start: test.times.activation_start_time == 0 ? "not specified": new Date(test.times.activation_start_time * 1000).toISOString(),
+                verfügbarkeit_ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
+                durchfuerung_zugang_start:test.times.starting_time,
+                durchfuerung_zugang_ende:test.times.ending_time,
+                erste_bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
+                letzte_bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
                 user_has_passed_once: user[0].data.results[0].passed==1?"Yes":"No",
                 user_has_passed_mark:user[0].data.results[0].mark_official,
                 number_of_passes: user[0].data.passes.length,
                 pass_number: pass.pass,
                 time_for_pass: pass.workingtime || 0,
                 //working_time:pass.workingtime,
-                TimeStamp: new Date(pass.tstamp * 1000).toISOString(),
-                answeredQuestions: pass.answeredquestions,
-                questionCount: pass.questioncount,
+                time_stamp: new Date(pass.tstamp * 1000).toISOString(),
+                number_answered_questions: pass.answeredquestions,
+                count_of_questions: pass.questioncount,
                 points: pass.points,
-                maxPoints: pass.maxpoints
+                max_number_of_points: pass.maxpoints
               });
             });
           });
@@ -98,24 +99,24 @@
           user.forEach(test => {
             test.data.passes.forEach(pass => {
               data.push({
-                testLabel: test.test,
-                Verfügbarkeit_Start: test.times.activation_start_time == 0 ? "not specified": new Date(test.times.activation_start_time * 1000).toISOString(),
-                Verfügbarkeit_Ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
-                Durchfuerung_Zugang_Start:test.times.starting_time,
-                Durchfuerung_Zugang_Ende:test.times.ending_time,
-                Erste_Bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
-                Letzte_Bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
+                test_label: test.test,
+                verfügbarkeit_start: test.times.activation_start_time == 0 ? "not specified": new Date(test.times.activation_start_time * 1000).toISOString(),
+                verfügbarkeit_ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
+                durchfuerung_zugang_start:test.times.starting_time,
+                durchfuerung_zugang_ende:test.times.ending_time,
+                erste_bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
+                letzte_bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
                 user_has_passed_once: user[0].data.results[0].passed==1?"Yes":"No",
                 user_has_passed_mark:user[0].data.results[0].mark_official,
                 number_of_passes: user[0].data.passes.length,
                 pass_number: pass.pass,
                 time_for_pass: pass.workingtime || 0,
                 //working_time:pass.workingtime,
-                TimeStamp: new Date(pass.tstamp * 1000).toISOString(),
-                answeredQuestions: pass.answeredquestions,
-                questionCount: pass.questioncount,
+                time_stamp: new Date(pass.tstamp * 1000).toISOString(),
+                number_answered_questions: pass.answeredquestions,
+                count_of_questions: pass.questioncount,
                 points: pass.points,
-                maxPoints: pass.maxpoints
+                max_number_of_points: pass.maxpoints
               });
             });
           });
