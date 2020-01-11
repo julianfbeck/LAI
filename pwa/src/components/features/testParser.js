@@ -1,4 +1,3 @@
-import XLSX from "xlsx"
 
 //get users
 const getUsers = (json) => {
@@ -35,16 +34,17 @@ const getUsers = (json) => {
 //sort questions and times. This is build on top of the tst_result object. 
 //this means only data when a test is finished will be added
 const getQuestions = (json, qti) => {
-    let questions  =  json.tst_test_result[0].row.map(q => q.$)
-    let questionsId = []
     let information = getInformation(qti)
-
+    let questions  =  json.tst_test_result[0].row.map(q => q.$)
+    let users  =  json.tst_active[0].row.map(usr => usr.$)
+    let questionsId = []
     questions.forEach(q => {
         questionsId[q.question_fi] = q
     });
     //array with quesions per Pass
     let questionPass = []
     questions.forEach(q => {
+        q["realPoints"] = q.points
         if (!questionPass.hasOwnProperty(q.active_fi+q.pass)) {
             questionPass[q.active_fi+q.pass] = []
         }
@@ -55,6 +55,7 @@ const getQuestions = (json, qti) => {
             questionPass[q.active_fi+q.pass].push(q)
         }
     });
+
     //delta per question
     let questionTime = []
     //i dont want to know the O(n) for this
@@ -67,17 +68,24 @@ const getQuestions = (json, qti) => {
             if(passes[i+1]===undefined){
                 //next question is undefined, so we cant calc the answer time 
                 questionTime[passes[i].question_fi].push(0)
+                passes[i]["time"] = 0
             }else{
                 questionTime[passes[i].question_fi].push(passes[i+1].tstamp-passStartTime)
+                passes[i]["time"] = passes[i+1].tstamp-passStartTime
             }
             passStartTime = passes[i].tstamp
         }
     });
+
     //calculate time per pass
     let passTime = []
     for (const [id, passes] of Object.entries(questionPass)) {
         passTime[id]= passes[passes.length-1].tstamp-passes[0].tstamp
     }
+
+
+
+    
     //add average and time to question
     for (const [id, times] of Object.entries(questionTime)) {
         if(questionsId[id] !== undefined){
@@ -88,8 +96,22 @@ const getQuestions = (json, qti) => {
             questionsId[id]["title"] = information.titles[id]
         }
     }
+    //add user to questionPass
+    for (const [, passes] of Object.entries(questionPass)) {
+        passes.forEach(pass=>{
+            
+            let user = users.filter(user => {
+                return user.active_id === pass.active_fi
+                })[0]
+            pass["user"] = user
+            pass["timeArray"] = questionTime[pass.question_fi]
+            let nonZeroTimes = pass["timeArray"].filter(time => time>0)
+            pass["questionAverage"] = (nonZeroTimes.reduce((a,b) => a + Number(b), 0)/nonZeroTimes.length) || 0
+            pass["title"] = information.titles[pass.question_fi]
+        })
+    }
     
-    return {questionsId: questionsId, passTime:passTime,title:information.title, testID:information.testID, times: information.times}
+    return {questionsId: questionsId, questionPass:questionPass, passTime:passTime,title:information.title, testID:information.testID, times: information.times}
 
 }
 
@@ -140,6 +162,7 @@ const getData = (json, qti) => {
     let questionParams = getQuestions(json,qti)
     let userArray = []
     let questionArray = []
+    let fullQuestionArray = []
 
     //change user back to an array to work easier with it.
     // eslint-disable-next-line no-unused-vars
@@ -170,10 +193,17 @@ const getData = (json, qti) => {
         user["lastLooked"] = lastLooked
         user["firstLooked"] = firstLooked
     });
+    //open up dictonary into array
+    for (const [, passes] of Object.entries(questionParams.questionPass)) {
+        passes.forEach(pass=>{
+            fullQuestionArray.push(pass)
+        })
+    }
+
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
-    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray, title:questionParams.title, times:questionParams.times, testID: questionParams.testID}
+    return {users: userArray, uniqueUsers:uniqueUsers ,totalTestRuns: totalTestRuns, questions:questionArray,fullQuestions: fullQuestionArray, title:questionParams.title, times:questionParams.times, testID: questionParams.testID}
 }
 //gets called after test has been analyzed 
 const aggregateUserData = (data) => {
@@ -198,16 +228,10 @@ const aggregateUserData = (data) => {
     return users
 }
 
-const downloadExcel = (name, data) => {
-    let sheet = XLSX.utils.json_to_sheet(data) 
-    var wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, sheet, name)
-    XLSX.writeFile(wb, `${name}.xlsx`)      
-}
+
 const parse = {
     getData,
     aggregateUserData,
-    downloadExcel
 }
 
 export default parse

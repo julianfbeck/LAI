@@ -109,6 +109,7 @@
         this.data.forEach(test => {
           test.overview = testParser.getData(test.json, test.qti);
           test.questions = test.overview.questions;
+          test.fullQuestions = test.overview.fullQuestions
         });
 
         this.data.aggregatedUsers = testParser.aggregateUserData(this.data);

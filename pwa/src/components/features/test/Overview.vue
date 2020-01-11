@@ -12,6 +12,9 @@
                         <div class="ma-2" v-for="test in user" v-bind:key="test.test">
                             <p class="headline text--secondary">Test: {{ test.test }}</p>
                             <div class="text--primary">
+                                User id: {{ user[0].data.active_id }}
+                            </div>
+                            <div class="text--primary">
                                 Total Passes: {{ test.data.passes.length }}
                             </div>
                             <div class="text--primary">
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-  import testParser from "@/components/features/testParser";
+  import XLSX from "xlsx"
 
   export default {
     props: ["data"],
@@ -54,6 +57,8 @@
     },
     methods: {
       downloadAll() {
+        let wb = XLSX.utils.book_new()
+
         let rows = [];
         //convert data to a good looking excel table
         this.data.aggregatedUsers.forEach(user => {
@@ -85,7 +90,40 @@
             });
           });
         });
-        testParser.downloadExcel("User_test_passes", rows);
+        let sheet = XLSX.utils.json_to_sheet(rows)
+         XLSX.utils.book_append_sheet(wb, sheet,"All Users Test Passes")
+        //testParser.downloadExcel("User_test_passes", rows);
+        this.data.aggregatedUsers.forEach(user => {
+          let data = []
+          user.forEach(test => {
+            test.data.passes.forEach(pass => {
+              data.push({
+                testLabel: test.test,
+                Verfügbarkeit_Start: test.times.activation_start_time == 0 ? "not specified": new Date(test.times.activation_start_time * 1000).toISOString(),
+                Verfügbarkeit_Ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
+                Durchfuerung_Zugang_Start:test.times.starting_time,
+                Durchfuerung_Zugang_Ende:test.times.ending_time,
+                Erste_Bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
+                Letzte_Bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
+                user_has_passed_once: user[0].data.results[0].passed==1?"Yes":"No",
+                user_has_passed_mark:user[0].data.results[0].mark_official,
+                number_of_passes: user[0].data.passes.length,
+                pass_number: pass.pass,
+                time_for_pass: pass.workingtime || 0,
+                //working_time:pass.workingtime,
+                TimeStamp: new Date(pass.tstamp * 1000).toISOString(),
+                answeredQuestions: pass.answeredquestions,
+                questionCount: pass.questioncount,
+                points: pass.points,
+                maxPoints: pass.maxpoints
+              });
+            });
+          });
+          let sheet2 = XLSX.utils.json_to_sheet(data)
+          XLSX.utils.book_append_sheet(wb, sheet2,user[0].data.fullname)
+        });
+
+        XLSX.writeFile(wb, `TestUsers.xlsx`)      
       }
     }
   };

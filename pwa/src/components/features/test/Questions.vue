@@ -20,13 +20,6 @@
                                 multi-sort
                                 class="elevation-1"/>
                     </v-col>
-                    <v-col cols="12">
-                        <v-btn block
-                               @click="download(test)">
-                            Download
-                            <v-icon right dark>cloud_download</v-icon>
-                        </v-btn>
-                    </v-col>
                 </v-row>
 
                 <v-row no-gutters>
@@ -80,7 +73,7 @@
 </template>
 
 <script>
-  import testParser from "@/components/features/testParser";
+  import XLSX from "xlsx"
 
   export default {
     props: ["data"],
@@ -98,15 +91,13 @@
       };
     },
     methods: {
-      download(test) {
-        testParser.downloadExcel(test.overview.title, test.questions);
-      },
 
       downloadAll() {
-        let allQuestions = [];
+        let simpleQuestions = [];
+        let advancedTable = [];
         this.data.forEach(test => {
           test.questions.forEach(q => {
-            allQuestions.push(
+            simpleQuestions.push(
             {
                 test_id:test.overview.testID,
                 test_label:test.overview.title,
@@ -117,20 +108,43 @@
                 question_id:q.question_fi,
                 question_label:q.title,
                 total_times_shown:q.times.length,
-                user_login:"",
-                user_fullname:"",
-                user_id:"",
-                pass:"",
-                points:"",
-                max_points:"",
-                beginn:"",
-                ende:"",
-                delta:""
+                average_time: q.average,
+                array_of_times:q.times
             }
             );
           });
         });
-        testParser.downloadExcel("all", allQuestions);
+        this.data.forEach(test => {
+          test.fullQuestions.forEach(q => {
+
+            advancedTable.push(
+                
+            {
+                test_label:test.overview.title,
+                Verfügbarkeit_Start: test.overview.times.activation_start_time== 0 ? "not specified": new Date(test.overview.times.activation_start_time * 1000).toISOString(),
+                Verfügbarkeit_Ende: test.overview.times.activation_end_time== 0 ? "not specified": new Date(test.overview.times.activation_end_time * 1000).toISOString(),
+                Durchfuerung_Zugang_Start:test.overview.times.starting_time,
+                Durchfuerung_Zugang_Ende:test.overview.times.ending_time,
+                user_id: q.user.active_id,
+                user_login: q.user.login,
+                user_fullname: q.user.fullname,
+                question_user_pass_number:q.pass,
+                question_id:q.question_fi,
+                question_title:q.title,
+                question_start_time: new Date(q.tstamp * 1000).toISOString(),
+                question_editing_time: q.time,
+                question_average_time: q.questionAverage,
+                question_points:q.points
+            }
+            );
+          });
+        });
+        const wb = XLSX.utils.book_new()
+        let sheet1 = XLSX.utils.json_to_sheet(simpleQuestions) 
+        XLSX.utils.book_append_sheet(wb, sheet1, "Only Questions")
+        let sheet2 = XLSX.utils.json_to_sheet(advancedTable) 
+        XLSX.utils.book_append_sheet(wb, sheet2, "All Questions per User Pass")
+        XLSX.writeFile(wb, `TestQuestions.xlsx`)  
       }
     }
   };
