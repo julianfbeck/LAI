@@ -123,8 +123,8 @@ const getInformation = (qti) => {
         questionTitles[question_ID] = item.$.title
 
     });
+    
     //get Times
-
     let times = []
     let startTime = undefined
     let endingTime = undefined
