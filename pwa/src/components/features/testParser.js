@@ -10,6 +10,8 @@ const getUsers = (json) => {
         usersId[usr.active_id] = usr
         usersId[usr.active_id]["passes"] = []
         usersId[usr.active_id]["results"] = []
+        usersId[usr.active_id]["tests"] = []
+
     });
 
     //add test passes to usr
@@ -21,7 +23,12 @@ const getUsers = (json) => {
     json.tst_result_cache[0].row.forEach(result => {
         usersId[result.$.active_fi]["results"].push(result.$)
     });
-    console.log(usersId)
+
+    //add tst_test_result to user 
+    //this is in order to analyze when the user first and last looked at the test
+    json.tst_test_result[0].row.forEach(result => {
+        usersId[result.$.active_fi]["tests"].push(result.$)
+    });
     return usersId
 }
 
@@ -152,6 +159,17 @@ const getData = (json, qti) => {
             }
         });
     });
+    //add when a user first and last looked at a test
+    userArray.forEach(user => {
+        let firstLooked = user.tests.reduce(function(res, obj) {
+            return (Number(obj.tstamp) < Number(res.tstamp)) ? obj : res;
+        }).tstamp;
+        let lastLooked = user.tests.reduce(function(res, obj) {
+            return (Number(obj.tstamp) > Number(res.tstamp)) ? obj : res;
+        }).tstamp;
+        user["lastLooked"] = lastLooked
+        user["firstLooked"] = firstLooked
+    });
     const totalTestRuns  =  userArray.reduce((a,b) => a + Number(b.passes.length), 0)
     const uniqueUsers  =  userArray.reduce((a,b) => a + Number(b.results.length), 0)
 
@@ -163,8 +181,6 @@ const aggregateUserData = (data) => {
     // dictonary with users across tests.
     let combinedUsers = []
     data.forEach(test => {
-        console.log("tests")
-        console.log(test)
         test.overview.users.forEach(user=>{
             if (!combinedUsers.hasOwnProperty(user.login)) {
                 combinedUsers[user.login] = []

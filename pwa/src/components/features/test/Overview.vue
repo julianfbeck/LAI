@@ -43,6 +43,7 @@
 </template>
 
 <script>
+  import testParser from "@/components/features/testParser";
 
   export default {
     props: ["data"],
@@ -58,7 +59,6 @@
         this.data.aggregatedUsers.forEach(user => {
           user.forEach(test => {
             test.data.passes.forEach(pass => {
-
               rows.push({
                 login: user[0].data.login,
                 id: user[0].data.active_id,
@@ -68,11 +68,14 @@
                 Verfügbarkeit_Ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
                 Durchfuerung_Zugang_Start:test.times.starting_time,
                 Durchfuerung_Zugang_Ende:test.times.ending_time,
-                Erste_Bearbeitung: new Date( user[0].data.tstamp * 1000).toISOString(),
-                Letzte_Bearbeitung:new Date(user[0].data.results[0].tstamp * 1000).toISOString(),
-                user_has_passed_once: user[0].data.results[0].passed,
-                pass: pass.pass,
-                Time: pass.totalTime,
+                Erste_Bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
+                Letzte_Bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
+                user_has_passed_once: user[0].data.results[0].passed==1?"Yes":"No",
+                user_has_passed_mark:user[0].data.results[0].mark_official,
+                number_of_passes: user[0].data.passes.length,
+                pass_number: pass.pass,
+                time_for_pass: pass.totalTime || 0,
+                //working_time:pass.workingtime,
                 TimeStamp: new Date(pass.tstamp * 1000).toISOString(),
                 answeredQuestions: pass.answeredquestions,
                 questionCount: pass.questioncount,
@@ -82,8 +85,7 @@
             });
           });
         });
-        console.log(rows)
-        //testParser.downloadExcel("User_test_passes", rows);
+        testParser.downloadExcel("User_test_passes", rows);
       }
     }
   };
