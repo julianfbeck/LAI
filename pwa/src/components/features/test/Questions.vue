@@ -116,9 +116,7 @@
         });
         this.data.forEach(test => {
           test.fullQuestions.forEach(q => {
-
             advancedTable.push(
-                
             {
                 test_label:test.overview.title,
                 verfügbarkeit_start: test.overview.times.activation_start_time== 0 ? "not specified": new Date(test.overview.times.activation_start_time * 1000).toISOString(),
