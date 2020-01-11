@@ -159,14 +159,17 @@ const getData = (json, qti) => {
 }
 //gets called after test has been analyzed 
 const aggregateUserData = (data) => {
+   
     // dictonary with users across tests.
     let combinedUsers = []
     data.forEach(test => {
+        console.log("tests")
+        console.log(test)
         test.overview.users.forEach(user=>{
             if (!combinedUsers.hasOwnProperty(user.login)) {
                 combinedUsers[user.login] = []
             }
-            combinedUsers[user.login].push({test:test.overview.title, data:user})
+            combinedUsers[user.login].push({test:test.overview.title,times:test.overview.times, data:user})
         })
 
     });

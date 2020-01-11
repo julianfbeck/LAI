@@ -43,7 +43,6 @@
 </template>
 
 <script>
-  import testParser from "@/components/features/testParser";
 
   export default {
     props: ["data"],
@@ -56,23 +55,22 @@
       downloadAll() {
         let rows = [];
         //convert data to a good looking excel table
-        console.log(this.data[0].overview.times)
         this.data.aggregatedUsers.forEach(user => {
           user.forEach(test => {
-            console.log(user[0].data.results[0])
             test.data.passes.forEach(pass => {
+
               rows.push({
                 login: user[0].data.login,
                 id: user[0].data.active_id,
                 fullName: user[0].data.fullname,
                 testLabel: test.test,
-                Verfügbarkeit_Start: test.overview.times.activation_start_time== 0 ? "not specified": new Date(test.overview.times.activation_start_time * 1000).toISOString(),
-                Verfügbarkeit_Ende: test.overview.times.activation_end_time== 0 ? "not specified": new Date(test.overview.times.activation_end_time * 1000).toISOString(),
-                Durchfuerung_Zugang_Start:test.overview.times.starting_time,
-                Durchfuerung_Zugang_Ende:test.overview.times.ending_time,
-                Öffnen_des_Tests: new Date( user[0].data.tstamp * 1000).toISOString(),
-                Erste_Bearbeitung:new Date(user[0].data.results[0].tstamp * 1000).toISOString(),
-
+                Verfügbarkeit_Start: test.times.activation_start_time == 0 ? "not specified": new Date(test.times.activation_start_time * 1000).toISOString(),
+                Verfügbarkeit_Ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
+                Durchfuerung_Zugang_Start:test.times.starting_time,
+                Durchfuerung_Zugang_Ende:test.times.ending_time,
+                Erste_Bearbeitung: new Date( user[0].data.tstamp * 1000).toISOString(),
+                Letzte_Bearbeitung:new Date(user[0].data.results[0].tstamp * 1000).toISOString(),
+                user_has_passed_once: user[0].data.results[0].passed,
                 pass: pass.pass,
                 Time: pass.totalTime,
                 TimeStamp: new Date(pass.tstamp * 1000).toISOString(),
@@ -84,7 +82,8 @@
             });
           });
         });
-        testParser.downloadExcel("all", rows);
+        console.log(rows)
+        //testParser.downloadExcel("User_test_passes", rows);
       }
     }
   };
