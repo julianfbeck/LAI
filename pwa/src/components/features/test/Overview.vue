@@ -10,18 +10,18 @@
                             {{ user[0].data.fullname }} ({{ user[0].data.login }})
                         </p>
                         <div class="ma-2" v-for="test in user" v-bind:key="test.test">
-                            <p class="headline text--primary">Test: {{ test.test }}</p>
+                            <p class="headline text--secondary">Test: {{ test.test }}</p>
                             <div class="text--primary">
                                 Total Passes: {{ test.data.passes.length }}
                             </div>
                             <div class="text--primary">
-                                Finished Tests: {{ test.data.results.length }} (TODO: Current value is successful passes, not finished ones)
+                                Passed Test: {{ test.data.results[0].passed==1?"Yes":"No" }}
                             </div>
                             <div class="text--primary">
-                                Status: {{ test.data.results[0].mark_official }}
+                                Mark: {{ test.data.results[0].mark_official }}
                             </div>
                             <div class="text--primary">
-                                Time per pass: {{ test.data.passes.map(x => x.totalTime) }}
+                                Time per pass [s]: {{ test.data.passes.map(x => Number(x.workingtime)) }}
                             </div>
                         </div>
                     </v-card-text>
@@ -74,7 +74,7 @@
                 user_has_passed_mark:user[0].data.results[0].mark_official,
                 number_of_passes: user[0].data.passes.length,
                 pass_number: pass.pass,
-                time_for_pass: pass.totalTime || 0,
+                time_for_pass: pass.workingtime || 0,
                 //working_time:pass.workingtime,
                 TimeStamp: new Date(pass.tstamp * 1000).toISOString(),
                 answeredQuestions: pass.answeredquestions,
