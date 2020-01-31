@@ -64,6 +64,8 @@
         //convert data to a good looking excel table
         this.data.aggregatedUsers.forEach(user => {
           user.forEach(test => {
+            console.log("test")
+            console.log(test)
             test.data.passes.forEach(pass => {
               rows.push({
                 login: user[0].data.login,
@@ -74,11 +76,11 @@
                 verfügbarkeit_ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
                 durchfuerung_zugang_start:test.times.starting_time,
                 durchfuerung_zugang_ende:test.times.ending_time,
-                erste_bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
-                letzte_bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
-                user_has_passed_once: user[0].data.results[0].passed==1?"Yes":"No",
-                user_has_passed_mark:user[0].data.results[0].mark_official,
-                number_of_passes: user[0].data.passes.length,
+                erste_bearbeitung: new Date( test.data.firstLooked * 1000).toISOString(),
+                letzte_bearbeitung:new Date(test.data.lastLooked * 1000).toISOString(),
+                user_has_passed_once: test.data.results[0].passed==1?"Yes":"No",
+                user_has_passed_mark:test.data.results[0].mark_official,
+                number_of_passes: test.data.passes.length,
                 pass_number: pass.pass,
                 time_for_pass: pass.workingtime || 0,
                 //working_time:pass.workingtime,
@@ -104,11 +106,11 @@
                 verfügbarkeit_ende: test.times.activation_end_time== 0 ? "not specified": new Date(test.times.activation_end_time * 1000).toISOString(),
                 durchfuerung_zugang_start:test.times.starting_time,
                 durchfuerung_zugang_ende:test.times.ending_time,
-                erste_bearbeitung: new Date( user[0].data.firstLooked * 1000).toISOString(),
-                letzte_bearbeitung:new Date(user[0].data.lastLooked * 1000).toISOString(),
-                user_has_passed_once: user[0].data.results[0].passed==1?"Yes":"No",
-                user_has_passed_mark:user[0].data.results[0].mark_official,
-                number_of_passes: user[0].data.passes.length,
+                erste_bearbeitung: new Date( test.data.firstLooked * 1000).toISOString(),
+                letzte_bearbeitung:new Date(test.data.lastLooked * 1000).toISOString(),
+                user_has_passed_once: test.data.results[0].passed==1?"Yes":"No",
+                user_has_passed_mark:test.data.results[0].mark_official,
+                number_of_passes: test.data.passes.length,
                 pass_number: pass.pass,
                 time_for_pass: pass.workingtime || 0,
                 //working_time:pass.workingtime,
