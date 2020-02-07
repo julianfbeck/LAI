@@ -9,6 +9,7 @@ This ensures that all confidential data does not fall into the hands of third pa
 The User documentation is found [here](https://github.com/jufabeck2202/LAI/tree/master/documentation) 
 
 The Cloud documentation is found [here](https://github.com/jufabeck2202/LAI/tree/master/terraform)
+
 The documentation of the XML documents required for LAI can be found [here](https://docs.google.com/document/d/1Qlvqnw82PwvyxiK3KSUvR_jYI7mRz2nzpOgyrw1XNcY/edit).
 
 ## Live Demo
